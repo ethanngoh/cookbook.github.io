@@ -11,7 +11,8 @@ export const COLORS = {
   NAVY: "#15214B",
   WHITE: "#FFFFFF",
   BLACK: "#000000",
-  VEGETABLE: "#3C891A"
+  VEGETABLE: "#3C891A",
+  START: "#006600"
 };
 
 export const LIGHT_COLORS: ColorPalette = {

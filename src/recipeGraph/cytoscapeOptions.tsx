@@ -36,11 +36,8 @@ export function toCytoscapeOptions(nodes: NodesSet, edges: EdgesSet) {
     layout: {
       name: "dagre",
       padding: 5,
-      animate: true,
-      animationDuration: 1000,
       nodeSep: 30,
       spacingFactor: 2,
-      animationEasing: "ease-out-circ",
       zoom: 10
     }
   };
@@ -62,11 +59,26 @@ function globalGraphStyles() {
       selector: "edge",
       style: {
         "curve-style": "bezier",
-        width: "0.25em",
+        width: "5",
         "target-arrow-shape": "triangle",
         "line-color": "#ffaaaa",
         "target-arrow-color": "#ffaaaa"
       }
     }
   ];
+}
+
+const EDGE_STYLE: { [key: string]: { [key: string]: string } } = {
+  combine: {
+    "line-color": "#0000ff",
+    "target-arrow-color": "#0000ff"
+  },
+  saute: {
+    "line-color": "#ffaaaa",
+    "target-arrow-color": "#ffaaaa"
+  }
+};
+
+export function getEdgeStyle(edgeType: string) {
+  return EDGE_STYLE[edgeType];
 }

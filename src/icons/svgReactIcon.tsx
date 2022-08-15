@@ -40,7 +40,7 @@ export function iconToSvgString(iconType: IconType, backgroundColor: string = "#
   viewBox = zoomSvg(viewBox, 0.6);
 
   const svg = `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg>
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox="${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}" style="background-color:${backgroundColor}"> 
+    <svg xmlns='http://www.w3.org/2000/svg' width="${viewBox.width}px" height="${viewBox.height}px" viewBox="${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}" style="background-color:${backgroundColor}"> 
       <path fill="${fill}" d="${pathD}">
       </path>
     </svg>`;

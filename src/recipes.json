@@ -83,7 +83,7 @@
       "size": "medium"
     },
     {
-      "id": "c1",
+      "id": "c2",
       "name": "Medium Cast Iron Pan",
       "size": "medium"
     }
@@ -103,47 +103,47 @@
       "id": "s0",
       "action": "start",
       "container": "Medium Frying Pan",
-      "graph": "start -> n1"
+      "graph": "start -> c1"
     },
     {
       "id": "s1",
       "action": "combine",
       "ingredients": ["butter", "corn", "bell pepper", "shallots"],
-      "graph": "* -> n1"
+      "graph": "* -> c1"
     },
     {
       "id": "s2",
       "action": "saute",
       "heat": "medium",
       "time": "5 min",
-      "graph": "n1 -> n2"
+      "graph": "c1 -> c1.2"
     },
     {
       "id": "s3",
       "action": "combine",
       "ingredients": ["sugar", "salt", "pepper", "sour cream"],
-      "graph": "* -> n2"
+      "graph": "* -> c1.2"
     },
     {
       "id": "s4",
       "action": "saute",
       "heat": "medium",
       "time": "1 min",
-      "graph": "n2 -> n3"
+      "graph": "c1.2 -> c1.3"
     },
     {
       "id": "s5",
       "action": "transfer",
       "from": "Medium Frying Pan",
       "to": "8 in. Cast Iron pan",
-      "graph": "n3 -> n4"
+      "graph": "c1.3 -> c2"
     },
     {
       "id": "s6",
       "action": "combine",
       "ingredients": ["mozzarella"],
       "to": "8 in. Cast Iron pan",
-      "graph": "* -> n4"
+      "graph": "* -> c2"
     },
     {
       "id": "s7",
@@ -151,12 +151,12 @@
       "setting": "broil",
       "temperature": "550 F",
       "time": "1 min",
-      "graph": "n4 -> n5"
+      "graph": "c2 -> c2.2"
     },
     {
       "id": "s8",
       "action": "serve",
-      "graph": "n5 -> end"
+      "graph": "c2.2 -> end"
     }
   ]
 }

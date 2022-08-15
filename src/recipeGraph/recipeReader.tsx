@@ -1,6 +1,7 @@
 import { getIcon } from "../icons/icons";
 import { Recipe } from "../model/recipe";
 import { CombineAction, RecipeAction } from "../model/recipeAction";
+import { getEdgeStyle } from "./cytoscapeOptions";
 import { edgeId, nodeId, EdgesSet, NodesSet } from "./graphCommon";
 import { RecipeGraph } from "./recipeGraph";
 
@@ -12,7 +13,7 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
     const step = recipe.steps[stepIndex];
     var graphStr = step.graph;
 
-    const pattern: RegExp = /([\d\w?!@#$%^&*()_-]+) ?-?>? ?([\d\w?!@#$%^&*()_-]+)?/g;
+    const pattern: RegExp = /([.\d\w?!@#$%^&*()_-]+) ?-?>? ?([.\d\w?!@#$%^&*()_-]+)?/g;
     const match = pattern.exec(graphStr);
     if (!match) {
       console.log(`invalid graph string ${graphStr}`);
@@ -25,20 +26,27 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
     if (node1 === "*" && step.action === "combine") {
       addToGraphForCombineAction(step, stepIndex, nodes, node2, edges);
     } else {
-      addToGraph(stepIndex, nodes, node1, node2, edges);
+      addToGraph(step, stepIndex, nodes, node1, node2, edges);
     }
   }
 
   return new RecipeGraph(nodes, edges);
 }
 
-function addToGraph(stepIndex: number, nodes: NodesSet, node1: string, node2: string, edges: EdgesSet) {
-  const icon = getIcon("carrot");
+function addToGraph(
+  step: RecipeAction,
+  stepIndex: number,
+  nodes: NodesSet,
+  node1: string,
+  node2: string,
+  edges: EdgesSet
+) {
+  const icon = getIcon("start");
   const n1Key = nodeId(node1);
   nodes[n1Key] = {
     id: n1Key,
     style: {
-      "background-image": getIcon("carrot").svgCss,
+      "background-image": icon.svgCss,
       "border-color": icon.borderColor
     }
   };
@@ -55,10 +63,7 @@ function addToGraph(stepIndex: number, nodes: NodesSet, node1: string, node2: st
       id: eKey,
       source: n1Key,
       target: n2Key,
-      style: {
-        "line-color": "#00ffaa",
-        "target-arrow-color": "#00ffaa"
-      }
+      style: getEdgeStyle(step.action)
     };
   }
 }
@@ -80,6 +85,15 @@ function addToGraphForCombineAction(
 
     const eKey = edgeId(ingredient, node2);
     const n2Key = nodeId(node2);
-    edges[eKey] = { id: eKey, source: n1Key, target: n2Key, order: stepIndex, style: {} };
+    edges[eKey] = {
+      id: eKey,
+      source: n1Key,
+      target: n2Key,
+      order: stepIndex,
+      style: {
+        "line-color": "#0000ff",
+        "target-arrow-color": "#0000ff"
+      }
+    };
   }
 }

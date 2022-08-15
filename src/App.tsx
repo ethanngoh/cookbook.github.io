@@ -55,6 +55,7 @@ const App = () => {
   const recipeGraph = convertToGraph(recipe);
   const [rNodes, rEdges] = recipeGraph.getRecipeStep(step);
   const cyOptions = toCytoscapeOptions(rNodes, rEdges);
+  // debugger;
 
   return (
     <div

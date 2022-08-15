@@ -1,9 +1,9 @@
 export function edgeId(node1: string, node2: string) {
-  return `${node1}-${node2}`.replace(" ", "_");
+  return `${node1.toLocaleLowerCase()}-${node2.toLocaleLowerCase()}`.replace(" ", "_");
 }
 
 export function nodeId(node: string) {
-  return `${node}`.replace(" ", "_");
+  return `${node.toLocaleLowerCase()}`.replace(" ", "_");
 }
 
 export interface GraphNode {
