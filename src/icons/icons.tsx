@@ -27,6 +27,7 @@ Object.keys(ICONS).forEach((e) => {
   const iconInfo = ICONS[e];
   const iconSvg = iconToSvgString(iconInfo.reactIconType, iconInfo.backgroundColor, iconInfo.fill);
   iconInfo["svgCss"] = svgForCssBackgroundImage(iconSvg);
+  debugger;
 });
 
 export function getIcon(iconName: string) {

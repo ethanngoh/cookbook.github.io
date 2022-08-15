@@ -103,7 +103,7 @@
       "id": "s0",
       "action": "start",
       "container": "Medium Frying Pan",
-      "graph": "n1"
+      "graph": "start -> n1"
     },
     {
       "id": "s1",

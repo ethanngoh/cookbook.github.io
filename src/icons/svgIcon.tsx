@@ -50,6 +50,6 @@ export function iconToSvgString(iconType: IconType, backgroundColor: string = "#
 
 export function svgForCssBackgroundImage(svgXml: string) {
   const svg = encodeURIComponent(svgXml);
-  const ret = `data:image/svg+xml;utf8,${svg}`;
+  const ret = `url('data:image/svg+xml;utf8,${svg}')`;
   return ret;
 }

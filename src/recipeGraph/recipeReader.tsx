@@ -1,12 +1,12 @@
 import { getIcon } from "../icons/icons";
 import { Recipe } from "../model/recipe";
 import { CombineAction, RecipeAction } from "../model/recipeAction";
-import { edgeId, nodeId, RecipeEdgesSet, RecipeNodesSet } from "./graphCommon";
+import { edgeId, nodeId, EdgesSet, NodesSet } from "./graphCommon";
 import { RecipeGraph } from "./recipeGraph";
 
 export function convertToGraph(recipe: Recipe): RecipeGraph {
-  var nodes: RecipeNodesSet = {};
-  var edges: RecipeEdgesSet = {};
+  var nodes: NodesSet = {};
+  var edges: EdgesSet = {};
 
   for (let stepIndex = 0; stepIndex < recipe.steps.length; stepIndex++) {
     const step = recipe.steps[stepIndex];
@@ -32,27 +32,26 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
   return new RecipeGraph(nodes, edges);
 }
 
-function addToGraph(stepIndex: number, nodes: RecipeNodesSet, node1: string, node2: string, edges: RecipeEdgesSet) {
+function addToGraph(stepIndex: number, nodes: NodesSet, node1: string, node2: string, edges: EdgesSet) {
   const icon = getIcon("carrot");
-  nodes[node1] = {
-    id: node1,
-    step: stepIndex,
+  const n1Key = nodeId(node1);
+  nodes[n1Key] = {
+    id: n1Key,
     style: {
       "background-image": getIcon("carrot").svgCss,
       "border-color": icon.borderColor
     }
   };
   if (node2) {
-    const n1Key = nodeId(node1);
     const n2Key = nodeId(node2);
-    nodes[node2] = {
+    nodes[n2Key] = {
       id: n2Key,
-      step: stepIndex,
       style: { "background-image": "https://live.staticflickr.com/1261/1413379559_412a540d29_b.jpg" }
     };
 
     const eKey = edgeId(node1, node2);
     edges[eKey] = {
+      order: stepIndex,
       id: eKey,
       source: n1Key,
       target: n2Key,
@@ -67,21 +66,20 @@ function addToGraph(stepIndex: number, nodes: RecipeNodesSet, node1: string, nod
 function addToGraphForCombineAction(
   step: RecipeAction,
   stepIndex: number,
-  nodes: RecipeNodesSet,
+  nodes: NodesSet,
   node2: string,
-  edges: RecipeEdgesSet
+  edges: EdgesSet
 ) {
   var combinedStep = step as CombineAction;
   for (var ingredient of combinedStep.ingredients) {
     const n1Key = nodeId(ingredient);
-    nodes[ingredient] = {
+    nodes[n1Key] = {
       id: n1Key,
-      step: stepIndex,
       style: { "background-image": "https://live.staticflickr.com/7272/7633179468_3e19e45a0c_b.jpg" }
     };
 
     const eKey = edgeId(ingredient, node2);
     const n2Key = nodeId(node2);
-    edges[eKey] = { id: eKey, source: n1Key, target: n2Key, style: {} };
+    edges[eKey] = { id: eKey, source: n1Key, target: n2Key, order: stepIndex, style: {} };
   }
 }

@@ -1,6 +1,6 @@
-import { edgeId, RecipeEdgesSet, RecipeNodesSet } from "./graphCommon";
+import { edgeId, EdgesSet, NodesSet } from "./graphCommon";
 
-export function toCytoscapeOptions(nodes: RecipeNodesSet, edges: RecipeEdgesSet) {
+export function toCytoscapeOptions(nodes: NodesSet, edges: EdgesSet) {
   return {
     nodes: Object.values(nodes).map((node) => {
       return {
@@ -34,7 +34,14 @@ export function toCytoscapeOptions(nodes: RecipeNodesSet, edges: RecipeEdgesSet)
       })
     ],
     layout: {
-      name: "dagre"
+      name: "dagre",
+      padding: 5,
+      animate: true,
+      animationDuration: 1000,
+      nodeSep: 30,
+      spacingFactor: 2,
+      animationEasing: "ease-out-circ",
+      zoom: 10
     }
   };
 }

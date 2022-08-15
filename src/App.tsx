@@ -2,9 +2,11 @@ import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { ChecklistItem } from "./components/checklistItem";
 import { CytoscapeBridge } from "./components/cytoscapeBridge";
-import { convertToGraph } from "./recipeGraph/recipeGraphReader";
-import { toCytoscapeOptions } from "./recipeGraph/toCytoscape";
+import { convertToGraph } from "./recipeGraph/recipeReader";
+import { toCytoscapeOptions } from "./recipeGraph/cytoscapeOptions";
 import * as recipes from "./recipes.json";
+import { useState } from "react";
+import { CytoscapeNavLeft, CytoscapeNavRight } from "./components/cytoscapeNavigation";
 
 const size = {
   kindleFire: [1920, 1200],
@@ -48,9 +50,11 @@ const CurrentItems = styled.div`
 `;
 
 const App = () => {
+  const [step, setStep] = useState(0);
   const recipe = recipes;
   const recipeGraph = convertToGraph(recipe);
-  const cyOptions = toCytoscapeOptions(recipeGraph.nodes, recipeGraph.edges);
+  const [rNodes, rEdges] = recipeGraph.getRecipeStep(step);
+  const cyOptions = toCytoscapeOptions(rNodes, rEdges);
 
   return (
     <div
@@ -58,11 +62,13 @@ const App = () => {
         display: flex;
         justify-content: left;
         align-items: top;
-        height: 100vh;
         overflow-y: hidden;
       `}
     >
       <CytoscapeBridge
+        currentStep={step}
+        setStep={setStep}
+        maxStep={recipeGraph.maxSteps}
         id={"cy"}
         nodes={cyOptions.nodes}
         edges={cyOptions.edges}
@@ -93,6 +99,11 @@ const App = () => {
           <ChecklistItem>step 1</ChecklistItem>
           <ChecklistItem>step 2</ChecklistItem>
           <ChecklistItem>step 3</ChecklistItem>
+        </PreviousItems>
+        <PreviousItems>
+          <ChecklistItem>Debug</ChecklistItem>
+          <ChecklistItem>Max Steps: {recipeGraph.maxSteps}</ChecklistItem>
+          <ChecklistItem>Current Step: {step}</ChecklistItem>
         </PreviousItems>
       </Instructions>
     </div>

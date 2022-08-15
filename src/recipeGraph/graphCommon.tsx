@@ -6,18 +6,18 @@ export function nodeId(node: string) {
   return `${node}`.replace(" ", "_");
 }
 
-export interface RecipeGraphNode {
+export interface GraphNode {
   id: string;
-  step: number;
   style: { [key: string]: string };
 }
 
-export interface RecipeGraphEdge {
+export interface GraphEdge {
   id: string;
+  order: number;
   source: string;
   target: string;
   style: { [key: string]: string };
 }
 
-export type RecipeNodesSet = { [key: string]: RecipeGraphNode };
-export type RecipeEdgesSet = { [key: string]: RecipeGraphEdge };
+export type NodesSet = { [key: string]: GraphNode };
+export type EdgesSet = { [key: string]: GraphEdge };
