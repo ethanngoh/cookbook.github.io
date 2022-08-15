@@ -2,7 +2,8 @@ import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { ChecklistItem } from "./components/checklistItem";
 import { CytoscapeBridge } from "./components/cytoscapeBridge";
-import { convertToGraph, toCytoscapeOptions } from "./recipeGraph";
+import { convertToGraph } from "./recipeGraph/recipeGraphReader";
+import { toCytoscapeOptions } from "./recipeGraph/toCytoscape";
 import * as recipes from "./recipes.json";
 
 const size = {
@@ -48,8 +49,8 @@ const CurrentItems = styled.div`
 
 const App = () => {
   const recipe = recipes;
-  const [nodes, edges] = convertToGraph(recipe);
-  const cyOptions = toCytoscapeOptions(nodes, edges);
+  const recipeGraph = convertToGraph(recipe);
+  const cyOptions = toCytoscapeOptions(recipeGraph.nodes, recipeGraph.edges);
 
   return (
     <div

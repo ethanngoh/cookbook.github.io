@@ -48,8 +48,7 @@ export function iconToSvgString(iconType: IconType, backgroundColor: string = "#
   return svg;
 }
 
-export function svgForCssBackgroundImage(iconType: IconType, backgroundColor: string = "#fff", fill: string = "#000") {
-  const svgXml = iconToSvgString(iconType, backgroundColor, fill);
+export function svgForCssBackgroundImage(svgXml: string) {
   const svg = encodeURIComponent(svgXml);
   const ret = `data:image/svg+xml;utf8,${svg}`;
   return ret;
