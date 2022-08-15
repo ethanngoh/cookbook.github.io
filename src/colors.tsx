@@ -10,7 +10,8 @@ export type ColorPalette = {
 export const COLORS = {
   NAVY: "#15214B",
   WHITE: "#FFFFFF",
-  BLACK: "#000000"
+  BLACK: "#000000",
+  VEGETABLE: "#3C891A"
 };
 
 export const LIGHT_COLORS: ColorPalette = {

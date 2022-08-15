@@ -1,30 +1,9 @@
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
-import { Sprite, Stage } from "react-pixi-fiber/index.js";
-import * as PIXI from "pixi.js";
-import { FaBeer } from "react-icons/fa";
-import { IconType } from "react-icons";
 import { ChecklistItem } from "./components/checklistItem";
-
-function iconToSvgString(iconType: IconType, size: number) {
-  var svgPath = iconType({ size: size });
-  var pathD = svgPath.props.children[0].props.d;
-  var viewBox = svgPath.props.attr.viewBox;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}"> 
-    <path fill="#000000" d="${pathD}">
-    </path>
-  </svg>`;
-
-  console.log(svg);
-  // console.log(renderToString(svgPath));
-  // return renderToString(svgPath);
-  return svg;
-}
-
-function Icon(props: any) {
-  const b = iconToSvgString(FaBeer, 150);
-  return <Sprite texture={PIXI.Texture.from(b)} height={props.size} width={props.size} {...props} />;
-}
+import { CytoscapeBridge } from "./components/cytoscapeBridge";
+import { convertToGraph, toCytoscapeOptions } from "./recipeGraph";
+import * as recipes from "./recipes.json";
 
 const size = {
   kindleFire: [1920, 1200],
@@ -43,7 +22,10 @@ export function getWindowSize() {
 const Instructions = styled.div`
   display: flex;
   flex-direction: column;
-  width: 33%;
+  width: 33vw;
+  height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: auto;
 `;
 const PreviousItems = styled.div`
   color: #ccc;
@@ -65,7 +47,9 @@ const CurrentItems = styled.div`
 `;
 
 const App = () => {
-  const window = getWindowSize();
+  const recipe = recipes;
+  const [nodes, edges] = convertToGraph(recipe);
+  const cyOptions = toCytoscapeOptions(nodes, edges);
 
   return (
     <div
@@ -73,15 +57,27 @@ const App = () => {
         display: flex;
         justify-content: left;
         align-items: top;
-        width: 90%;
+        height: 100vh;
+        overflow-y: hidden;
       `}
     >
-      {/* <Stage options={{ backgroundColor: 0x777777, width: (window.width / 3) * 2, height: window.height * 0.9 }}>
-        <Icon x={0} y={0} size={60} />
-        <Icon x={400} y={400} size={40} />
-      </Stage> */}
+      <CytoscapeBridge
+        id={"cy"}
+        nodes={cyOptions.nodes}
+        edges={cyOptions.edges}
+        style={cyOptions.style}
+        layout={cyOptions.layout}
+      />
       <Instructions>
-        <h1>Food name</h1>
+        <h1
+          className={css`
+            font-size: 48px;
+            font-family: "Lexend Deca", sans-serif;
+            font-weight: 400;
+          `}
+        >
+          {recipe.name}
+        </h1>
         <PreviousItems>
           <ChecklistItem>step 1</ChecklistItem>
           <ChecklistItem>step 2</ChecklistItem>

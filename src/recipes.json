@@ -1,0 +1,162 @@
+{
+  "id": "r1",
+  "name": "Corn cheese",
+  "ingredients": [
+    {
+      "id": "i1",
+      "name": "Unsalted Butter",
+      "amount": {
+        "unit": "tbsp",
+        "value": 1
+      }
+    },
+    {
+      "id": "i2",
+      "name": "Corn",
+      "amount": {
+        "unit": "oz",
+        "value": 15
+      },
+      "description": "1 can of corn kernels"
+    },
+    {
+      "id": "i3",
+      "name": "Mini Pepper",
+      "amount": {
+        "unit": "count",
+        "value": 3
+      }
+    },
+    {
+      "id": "i4",
+      "name": "Shallot",
+      "amount": {
+        "unit": "count",
+        "value": 2
+      }
+    },
+    {
+      "id": "i5",
+      "name": "Sugar",
+      "amount": {
+        "unit": "tsp",
+        "value": 1
+      }
+    },
+    {
+      "id": "i6",
+      "name": "Salt",
+      "amount": {
+        "unit": "pinch",
+        "value": 2
+      }
+    },
+    {
+      "id": "i7",
+      "name": "Pepper",
+      "amount": {
+        "unit": "taste",
+        "value": 1
+      }
+    },
+    {
+      "id": "i8",
+      "name": "Sour Cream",
+      "amount": {
+        "unit": "tbsp",
+        "value": 2
+      }
+    },
+    {
+      "id": "i9",
+      "name": "Shredded Mozzarella",
+      "amount": {
+        "unit": "cup",
+        "value": 0.5
+      }
+    }
+  ],
+  "containers": [
+    {
+      "id": "c1",
+      "name": "Frying Pan",
+      "size": "medium"
+    },
+    {
+      "id": "c1",
+      "name": "Medium Cast Iron Pan",
+      "size": "medium"
+    }
+  ],
+  "tools": [
+    {
+      "id": "t1",
+      "name": "Stove"
+    },
+    {
+      "id": "t2",
+      "name": "Oven"
+    }
+  ],
+  "steps": [
+    {
+      "id": "s0",
+      "action": "start",
+      "container": "Medium Frying Pan",
+      "graph": "n1"
+    },
+    {
+      "id": "s1",
+      "action": "combine",
+      "ingredients": ["butter", "corn", "bell pepper", "shallots"],
+      "graph": "* -> n1"
+    },
+    {
+      "id": "s2",
+      "action": "saute",
+      "heat": "medium",
+      "time": "5 min",
+      "graph": "n1 -> n2"
+    },
+    {
+      "id": "s3",
+      "action": "combine",
+      "ingredients": ["sugar", "salt", "pepper", "sour cream"],
+      "graph": "* -> n2"
+    },
+    {
+      "id": "s4",
+      "action": "saute",
+      "heat": "medium",
+      "time": "1 min",
+      "graph": "n2 -> n3"
+    },
+    {
+      "id": "s5",
+      "action": "transfer",
+      "from": "Medium Frying Pan",
+      "to": "8 in. Cast Iron pan",
+      "graph": "n3 -> n4"
+    },
+    {
+      "id": "s6",
+      "action": "combine",
+      "ingredients": ["mozzarella"],
+      "to": "8 in. Cast Iron pan",
+      "graph": "* -> n4"
+    },
+    {
+      "id": "s7",
+      "action": "oven",
+      "setting": "broil",
+      "temperature": "550 F",
+      "time": "1 min",
+      "graph": "n4 -> n5"
+    },
+    {
+      "id": "s8",
+      "action": "serve",
+      "graph": "n5 -> end"
+    }
+  ]
+}
