@@ -3,7 +3,7 @@
   "name": "Corn cheese",
   "ingredients": [
     {
-      "id": "i1",
+      "id": "butter",
       "name": "Unsalted Butter",
       "amount": {
         "unit": "tbsp",
@@ -11,7 +11,7 @@
       }
     },
     {
-      "id": "i2",
+      "id": "corn",
       "name": "Corn",
       "amount": {
         "unit": "oz",
@@ -20,15 +20,15 @@
       "description": "1 can of corn kernels"
     },
     {
-      "id": "i3",
-      "name": "Mini Pepper",
+      "id": "bell pepper",
+      "name": "Bell Pepper",
       "amount": {
         "unit": "count",
         "value": 3
       }
     },
     {
-      "id": "i4",
+      "id": "shallots",
       "name": "Shallot",
       "amount": {
         "unit": "count",
@@ -36,7 +36,7 @@
       }
     },
     {
-      "id": "i5",
+      "id": "sugar",
       "name": "Sugar",
       "amount": {
         "unit": "tsp",
@@ -44,7 +44,7 @@
       }
     },
     {
-      "id": "i6",
+      "id": "salt",
       "name": "Salt",
       "amount": {
         "unit": "pinch",
@@ -52,7 +52,7 @@
       }
     },
     {
-      "id": "i7",
+      "id": "pepper",
       "name": "Pepper",
       "amount": {
         "unit": "taste",
@@ -60,7 +60,7 @@
       }
     },
     {
-      "id": "i8",
+      "id": "sour cream",
       "name": "Sour Cream",
       "amount": {
         "unit": "tbsp",
@@ -68,7 +68,7 @@
       }
     },
     {
-      "id": "i9",
+      "id": "mozzarella",
       "name": "Shredded Mozzarella",
       "amount": {
         "unit": "cup",
@@ -84,7 +84,7 @@
     },
     {
       "id": "c2",
-      "name": "Medium Cast Iron Pan",
+      "name": "Cast Iron Pan",
       "size": "medium"
     }
   ],
@@ -102,18 +102,20 @@
     {
       "id": "s0",
       "action": "start",
-      "container": "Medium Frying Pan",
+      "containerId": "c1",
       "graph": "start -> c1"
     },
     {
       "id": "s1",
       "action": "combine",
-      "ingredients": ["butter", "corn", "bell pepper", "shallots"],
+      "ingredientIds": ["butter", "corn", "bell pepper", "shallots"],
+      "containerId": "c1",
       "graph": "* -> c1"
     },
     {
       "id": "s2",
       "action": "saute",
+      "containerId": "c1",
       "heat": "medium",
       "time": "5 min",
       "graph": "c1 -> c1.2"
@@ -121,12 +123,14 @@
     {
       "id": "s3",
       "action": "combine",
-      "ingredients": ["sugar", "salt", "pepper", "sour cream"],
+      "containerId": "c1",
+      "ingredientIds": ["sugar", "salt", "pepper", "sour cream"],
       "graph": "* -> c1.2"
     },
     {
       "id": "s4",
       "action": "saute",
+      "containerId": "c1",
       "heat": "medium",
       "time": "1 min",
       "graph": "c1.2 -> c1.3"
@@ -134,20 +138,22 @@
     {
       "id": "s5",
       "action": "transfer",
-      "from": "Medium Frying Pan",
-      "to": "8 in. Cast Iron pan",
+      "containerId": "c1",
+      "fromContainerId": "c1",
+      "toContainerId": "c2",
       "graph": "c1.3 -> c2"
     },
     {
       "id": "s6",
       "action": "combine",
-      "ingredients": ["mozzarella"],
-      "to": "8 in. Cast Iron pan",
+      "containerId": "c2",
+      "ingredientIds": ["mozzarella"],
       "graph": "* -> c2"
     },
     {
       "id": "s7",
       "action": "oven",
+      "containerId": "c2",
       "setting": "broil",
       "temperature": "550 F",
       "time": "1 min",
@@ -156,6 +162,7 @@
     {
       "id": "s8",
       "action": "serve",
+      "containerId": "c2",
       "graph": "c2.2 -> end"
     }
   ]

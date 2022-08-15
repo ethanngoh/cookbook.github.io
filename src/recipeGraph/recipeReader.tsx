@@ -5,23 +5,33 @@ import { getEdgeStyle } from "./cytoscapeOptions";
 import { edgeId, nodeId, EdgesSet, NodesSet } from "./graphCommon";
 import { RecipeGraph } from "./recipeGraph";
 
+export function parseGraphString(graphStr: string) {
+  const pattern: RegExp = /([.\d\w?!@#$%^&*()_-]+) ?-?>? ?([.\d\w?!@#$%^&*()_-]+)?/g;
+  const match = pattern.exec(graphStr);
+  if (!match) {
+    const msg = `invalid graph string ${graphStr}`;
+    console.log(msg);
+    throw msg;
+  }
+
+  return [match[1], match[2]];
+}
+
+export function getIngredientName(recipe: Recipe, id: string): string {
+  return recipe.ingredients.filter((e) => e.id == id)[0].name;
+}
+
+export function getContainerName(recipe: Recipe, id: string): string {
+  return recipe.containers.filter((e) => e.id == id)[0].name;
+}
+
 export function convertToGraph(recipe: Recipe): RecipeGraph {
   var nodes: NodesSet = {};
   var edges: EdgesSet = {};
 
   for (let stepIndex = 0; stepIndex < recipe.steps.length; stepIndex++) {
     const step = recipe.steps[stepIndex];
-    var graphStr = step.graph;
-
-    const pattern: RegExp = /([.\d\w?!@#$%^&*()_-]+) ?-?>? ?([.\d\w?!@#$%^&*()_-]+)?/g;
-    const match = pattern.exec(graphStr);
-    if (!match) {
-      console.log(`invalid graph string ${graphStr}`);
-      continue;
-    }
-
-    const node1 = match[1];
-    const node2 = match[2];
+    const [node1, node2] = parseGraphString(step.graph);
 
     if (node1 === "*" && step.action === "combine") {
       addToGraphForCombineAction(step, stepIndex, nodes, node2, edges);
@@ -30,7 +40,7 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
     }
   }
 
-  return new RecipeGraph(nodes, edges);
+  return new RecipeGraph(nodes, edges, recipe);
 }
 
 function addToGraph(
@@ -63,6 +73,7 @@ function addToGraph(
       id: eKey,
       source: n1Key,
       target: n2Key,
+      data: step,
       style: getEdgeStyle(step.action)
     };
   }
@@ -76,7 +87,7 @@ function addToGraphForCombineAction(
   edges: EdgesSet
 ) {
   var combinedStep = step as CombineAction;
-  for (var ingredient of combinedStep.ingredients) {
+  for (var ingredient of combinedStep.ingredientIds) {
     const n1Key = nodeId(ingredient);
     nodes[n1Key] = {
       id: n1Key,
@@ -89,6 +100,7 @@ function addToGraphForCombineAction(
       id: eKey,
       source: n1Key,
       target: n2Key,
+      data: step,
       order: stepIndex,
       style: {
         "line-color": "#0000ff",

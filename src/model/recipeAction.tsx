@@ -2,6 +2,7 @@ export interface BaseRecipeAction {
   action: string;
   graph: string;
   id: string;
+  containerId: string;
   description?: string;
 }
 
@@ -10,7 +11,7 @@ export interface StartAction extends BaseRecipeAction {
 }
 
 export interface CombineAction extends BaseRecipeAction {
-  ingredients: string[];
+  ingredientIds: string[];
 }
 
 export interface SauteAction extends BaseRecipeAction {
@@ -19,8 +20,8 @@ export interface SauteAction extends BaseRecipeAction {
 }
 
 export interface TransferAction extends BaseRecipeAction {
-  from: string;
-  to: string;
+  fromContainerId: string;
+  toContainerId: string;
 }
 
 export interface OvenAction extends BaseRecipeAction {

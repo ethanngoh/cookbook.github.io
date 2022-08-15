@@ -37,8 +37,7 @@ export function toCytoscapeOptions(nodes: NodesSet, edges: EdgesSet) {
       name: "dagre",
       padding: 5,
       nodeSep: 30,
-      spacingFactor: 2,
-      zoom: 10
+      spacingFactor: 1.5
     }
   };
 }
@@ -49,8 +48,8 @@ function globalGraphStyles() {
       selector: "node",
       style: {
         "background-fit": "cover",
-        height: "4em",
-        width: "4em",
+        height: "3em",
+        width: "3em",
         "border-color": "#555",
         "border-width": 5
       }

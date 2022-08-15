@@ -1,12 +1,12 @@
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
+import { useState } from "react";
 import { ChecklistItem } from "./components/checklistItem";
 import { CytoscapeBridge } from "./components/cytoscapeBridge";
-import { convertToGraph } from "./recipeGraph/recipeReader";
 import { toCytoscapeOptions } from "./recipeGraph/cytoscapeOptions";
+import { InstructionText } from "./recipeGraph/instructionText";
+import { convertToGraph } from "./recipeGraph/recipeReader";
 import * as recipes from "./recipes.json";
-import { useState } from "react";
-import { CytoscapeNavLeft, CytoscapeNavRight } from "./components/cytoscapeNavigation";
 
 const size = {
   kindleFire: [1920, 1200],
@@ -30,13 +30,12 @@ const Instructions = styled.div`
   overflow-y: auto;
   -webkit-overflow-scrolling: auto;
 `;
-const PreviousItems = styled.div`
-  color: #ccc;
+const NonCurrentItems = styled.div`
   font-family: "Inter", sans-serif;
-  font-size: 1.5em;
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+  opacity: 0.5;
 `;
 
 const CurrentItems = styled.div`
@@ -53,9 +52,9 @@ const App = () => {
   const [step, setStep] = useState(0);
   const recipe = recipes;
   const recipeGraph = convertToGraph(recipe);
-  const [rNodes, rEdges] = recipeGraph.getRecipeStep(step);
-  const cyOptions = toCytoscapeOptions(rNodes, rEdges);
-  // debugger;
+  const subGraph = recipeGraph.getRecipeStep(step);
+  const actions = subGraph.getRecipeActions(step);
+  const cyOptions = toCytoscapeOptions(subGraph.nodes, subGraph.edges);
 
   return (
     <div
@@ -86,26 +85,36 @@ const App = () => {
         >
           {recipe.name}
         </h1>
-        <PreviousItems>
-          <ChecklistItem>step 1</ChecklistItem>
-          <ChecklistItem>step 2</ChecklistItem>
-          <ChecklistItem>step 3</ChecklistItem>
-        </PreviousItems>
+        <NonCurrentItems>
+          {actions.prev.map((e) => {
+            return (
+              <ChecklistItem>
+                <InstructionText recipeAction={e} recipe={recipe} />
+              </ChecklistItem>
+            );
+          })}
+        </NonCurrentItems>
         <CurrentItems>
-          <ChecklistItem>step 1</ChecklistItem>
-          <ChecklistItem>step 2</ChecklistItem>
-          <ChecklistItem>step 3</ChecklistItem>
+          <ChecklistItem>
+            <InstructionText recipeAction={actions.current} recipe={recipe} />
+          </ChecklistItem>
         </CurrentItems>
-        <PreviousItems>
-          <ChecklistItem>step 1</ChecklistItem>
-          <ChecklistItem>step 2</ChecklistItem>
-          <ChecklistItem>step 3</ChecklistItem>
-        </PreviousItems>
-        <PreviousItems>
+        <NonCurrentItems>
+          {actions.next.map((e) => {
+            return (
+              <ChecklistItem>
+                <InstructionText recipeAction={e} recipe={recipe} />
+              </ChecklistItem>
+            );
+          })}
+        </NonCurrentItems>
+        <hr />
+        <br />
+        <NonCurrentItems>
           <ChecklistItem>Debug</ChecklistItem>
           <ChecklistItem>Max Steps: {recipeGraph.maxSteps}</ChecklistItem>
           <ChecklistItem>Current Step: {step}</ChecklistItem>
-        </PreviousItems>
+        </NonCurrentItems>
       </Instructions>
     </div>
   );

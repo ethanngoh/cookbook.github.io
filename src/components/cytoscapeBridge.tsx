@@ -57,7 +57,7 @@ export const CytoscapeBridge = ({
       `}
     >
       <CytoscapeNavLeft currentStep={currentStep} setStep={setStep} minStep={0} />
-      <div style={{ height: "50vh", width: "66vw" }} ref={ref} id={id}></div>
+      <div style={{ height: "75vh", width: "50vw" }} ref={ref} id={id}></div>
       <CytoscapeNavRight currentStep={currentStep} setStep={setStep} maxStep={maxStep} />
     </div>
   );

@@ -1,5 +1,12 @@
 import React from "react";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+import styled from "@emotion/styled";
+
+const CytoNav = styled.div`
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 0;
+`;
 
 export const CytoscapeNavLeft = ({
   currentStep,
@@ -11,7 +18,7 @@ export const CytoscapeNavLeft = ({
   minStep: number;
 }) => {
   return (
-    <div
+    <CytoNav
       onClick={() => {
         var nextStep = currentStep - 1;
         if (nextStep < minStep) {
@@ -20,8 +27,8 @@ export const CytoscapeNavLeft = ({
         setStep(nextStep);
       }}
     >
-      <MdNavigateBefore size={100} />
-    </div>
+      <MdNavigateBefore size={80} />
+    </CytoNav>
   );
 };
 
@@ -35,7 +42,7 @@ export const CytoscapeNavRight = ({
   maxStep: number;
 }) => {
   return (
-    <div
+    <CytoNav
       onClick={() => {
         var nextStep = currentStep + 1;
         if (nextStep > maxStep) {
@@ -44,7 +51,7 @@ export const CytoscapeNavRight = ({
         setStep(nextStep);
       }}
     >
-      <MdNavigateNext size={100} />
-    </div>
+      <MdNavigateNext size={80} />
+    </CytoNav>
   );
 };

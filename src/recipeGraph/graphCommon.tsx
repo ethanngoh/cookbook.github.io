@@ -16,6 +16,7 @@ export interface GraphEdge {
   order: number;
   source: string;
   target: string;
+  data: any;
   style: { [key: string]: string };
 }
 
