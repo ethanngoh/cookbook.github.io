@@ -13,7 +13,20 @@ import {
 import { getContainerName, getIngredientName } from "./recipeReader";
 
 function conjunction(words: string[]) {
-  return [...words.slice(0, -1), `and ${words.at(-1)}`].join(", ");
+  const wordsHtml = words.map((e) => (
+    <span>
+      <IngredientSpan>{e}</IngredientSpan>,{" "}
+    </span>
+  ));
+  // debugger;
+
+  const wordsHtmlLast = (
+    <span>
+      and <IngredientSpan>{words.at(-1)}</IngredientSpan>
+    </span>
+  );
+  const thing = [...wordsHtml.slice(0, -1), wordsHtmlLast];
+  return <>{thing}</>;
 }
 
 const IngredientSpan = styled.span`
@@ -60,7 +73,7 @@ const combineAction = (action: CombineAction, recipe: Recipe) => {
 
   return (
     <span>
-      Combine <IngredientSpan>{ingredientsText}</IngredientSpan> in <ContainerSpan>{containerText}</ContainerSpan>.
+      {action.id}. Combine {ingredientsText} in <ContainerSpan>{containerText}</ContainerSpan>.
     </span>
   );
 };

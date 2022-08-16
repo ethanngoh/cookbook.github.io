@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 
-const Item = styled.div`
-  border: 1px solid black;
-  border-radius: 4px;
+const Item = styled.li`
   padding: 0.5em;
   font-size: 1rem;
 `;
