@@ -13,7 +13,7 @@ const NavBrandTextContainer = styled.div`
 
 const NavBrandText = styled.div`
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
   font-family: ${getFont(FontKey.HEADING)};
   color: #000;
 `;
@@ -31,7 +31,7 @@ const NavBrandContainer = styled.div`
 export const NavBrand = () => {
   return (
     <NavBrandContainer>
-      <NavBrandImg src="img/logo-color.svg" width="40px" alt="logo" />
+      {/* <NavBrandImg src="img/logo-color.svg" width="40px" alt="logo" /> */}
       <NavBrandLink href="#page-top">
         <NavBrandTextContainer>
           <NavBrandText>Cookbook</NavBrandText>

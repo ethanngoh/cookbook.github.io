@@ -2,6 +2,8 @@ import { Recipe } from "../model/recipe";
 import { RecipeAction } from "../model/recipeAction";
 import { EdgesSet, NodesSet } from "./graphCommon";
 
+export type RecipeActionsView = { prev: RecipeAction[]; current: RecipeAction; next: RecipeAction[] };
+
 export class RecipeGraph {
   nodes: NodesSet;
   edges: EdgesSet;
@@ -21,7 +23,7 @@ export class RecipeGraph {
     const currentStepNodes: { [key: string]: string } = {};
 
     for (var [key, edge] of Object.entries(this.edges).sort(([ak, av], [bk, bv]) => av.order - bv.order)) {
-      if (Math.abs(edge.order - step) > 1) {
+      if (Math.abs(edge.order - step) > 2) {
         continue;
       }
 

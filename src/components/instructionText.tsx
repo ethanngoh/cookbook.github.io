@@ -1,5 +1,6 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-
+import { COLORS_1 } from "../colors";
 import { Recipe } from "../model/recipe";
 import {
   CombineAction,
@@ -10,44 +11,61 @@ import {
   StartAction,
   TransferAction
 } from "../model/recipeAction";
-import { getContainerName, getIngredientName } from "./recipeReader";
+import { getContainerName, getIngredientName } from "../recipeGraph/recipeReader";
 
-function conjunction(words: string[]) {
-  const wordsHtml = words.map((e) => (
-    <span>
-      <IngredientSpan>{e}</IngredientSpan>,{" "}
-    </span>
-  ));
-  // debugger;
-
-  const wordsHtmlLast = (
-    <span>
-      and <IngredientSpan>{words.at(-1)}</IngredientSpan>
-    </span>
-  );
-  const thing = [...wordsHtml.slice(0, -1), wordsHtmlLast];
-  return <>{thing}</>;
-}
+const HighlightedText = css`
+  padding: 0.2rem 0.4rem;
+`;
 
 const IngredientSpan = styled.span`
-  background-color: yellow;
+  background-color: ${COLORS_1.INGREDIENT};
+  ${HighlightedText};
 `;
 
 const ContainerSpan = styled.span`
-  background-color: #ddd;
+  background-color: ${COLORS_1.CONTAINER};
+  ${HighlightedText};
 `;
 
 const TimeSpan = styled.span`
-  background-color: #0cc;
+  background-color: ${COLORS_1.TIME};
+  ${HighlightedText};
 `;
 
 const HeatSpan = styled.span`
-  background-color: #c00;
+  background-color: ${COLORS_1.COOK};
+  ${HighlightedText};
 `;
 
 const SettingSpan = styled.span`
-  background-color: #cc0;
+  background-color: ${COLORS_1.COOK};
+  ${HighlightedText};
 `;
+
+const InstructionDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const StepNumber = styled.span`
+  background: ${COLORS_1.BACKGROUND_EMPH2};
+  border-radius: 1000px;
+  padding: 0.5rem;
+`;
+
+const InstructionTextSpan = styled.span`
+  line-height: 1.75rem;
+`;
+
+export const Instruction = ({ recipeAction, recipe }: { recipeAction: RecipeAction; recipe: Recipe }) => {
+  return (
+    <InstructionDiv>
+      <StepNumber>{recipeAction.id}</StepNumber>
+      <InstructionText recipe={recipe} recipeAction={recipeAction} />
+    </InstructionDiv>
+  );
+};
 
 export const InstructionText = ({ recipeAction, recipe }: { recipeAction: RecipeAction; recipe: Recipe }) => {
   if (recipeAction.action === "combine") {
@@ -66,34 +84,49 @@ export const InstructionText = ({ recipeAction, recipe }: { recipeAction: Recipe
   throw "unrecognized recipe action";
 };
 
+function conjunction(words: string[]) {
+  const wordsHtml = words.map((e) => (
+    <InstructionTextSpan>
+      <IngredientSpan>{e}</IngredientSpan>,{" "}
+    </InstructionTextSpan>
+  ));
+  const wordsHtmlLast = (
+    <InstructionTextSpan>
+      and <IngredientSpan>{words.at(-1)}</IngredientSpan>
+    </InstructionTextSpan>
+  );
+  const thing = [...wordsHtml.slice(0, -1), wordsHtmlLast];
+  return <>{thing}</>;
+}
+
 const combineAction = (action: CombineAction, recipe: Recipe) => {
   const ingredientNames = action.ingredientIds.map((e) => getIngredientName(recipe, e));
   const ingredientsText = conjunction(ingredientNames);
   const containerText = getContainerName(recipe, action.containerId);
 
   return (
-    <span>
-      {action.id}. Combine {ingredientsText} in <ContainerSpan>{containerText}</ContainerSpan>.
-    </span>
+    <InstructionTextSpan>
+      Combine {ingredientsText} in <ContainerSpan>{containerText}</ContainerSpan>.
+    </InstructionTextSpan>
   );
 };
 
 function startAction(recipe: Recipe, action: StartAction) {
   const containerText = getContainerName(recipe, action.containerId);
   return (
-    <span>
+    <InstructionTextSpan>
       Start with a <ContainerSpan>{containerText}</ContainerSpan>.
-    </span>
+    </InstructionTextSpan>
   );
 }
 
 function sauteAction(recipe: Recipe, action: SauteAction) {
   const containerText = getContainerName(recipe, action.containerId);
   return (
-    <span>
+    <InstructionTextSpan>
       Saute contents of <ContainerSpan>{containerText}</ContainerSpan> for <TimeSpan>{action.time}</TimeSpan> on{" "}
       <HeatSpan>{action.heat}</HeatSpan> heat.
-    </span>
+    </InstructionTextSpan>
   );
 }
 
@@ -101,28 +134,28 @@ function transferAction(recipe: Recipe, action: TransferAction) {
   const fromContainerText = getContainerName(recipe, action.fromContainerId);
   const toContainerText = getContainerName(recipe, action.toContainerId);
   return (
-    <span>
+    <InstructionTextSpan>
       Transfer contents from <ContainerSpan>{fromContainerText}</ContainerSpan> to{" "}
       <ContainerSpan>{toContainerText}</ContainerSpan>.
-    </span>
+    </InstructionTextSpan>
   );
 }
 
 function ovenAction(recipe: Recipe, action: OvenAction) {
   const containerText = getContainerName(recipe, action.containerId);
   return (
-    <span>
+    <InstructionTextSpan>
       Set oven on <SettingSpan>{action.setting}</SettingSpan> at <HeatSpan>{action.temperature}</HeatSpan> and cook{" "}
       <ContainerSpan>{containerText}</ContainerSpan> for <TimeSpan>{action.time}</TimeSpan>.
-    </span>
+    </InstructionTextSpan>
   );
 }
 
 function serveAction(recipe: Recipe, action: ServeAction) {
   const containerText = getContainerName(recipe, action.containerId);
   return (
-    <span>
+    <InstructionTextSpan>
       Serve <ContainerSpan>{containerText}</ContainerSpan>.
-    </span>
+    </InstructionTextSpan>
   );
 }

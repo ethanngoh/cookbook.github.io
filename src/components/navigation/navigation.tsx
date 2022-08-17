@@ -12,6 +12,8 @@ const NavContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   margin: 1em 2em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid black;
 `;
 
 const NavLeft = styled.nav`
@@ -45,7 +47,7 @@ const NavLink = styled.a`
   align-items: center;
   color: #000;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   border-radius: 0;
   margin-left: 1.5em;
   text-decoration: none;
@@ -57,7 +59,6 @@ export const Navigation = () => {
       left={<NavBrand />}
       right={
         <NavLinks>
-          awefl;jkawkl;efjawklef
           <NavLink href="#about">About</NavLink>
           <NavLink href="#services">Services</NavLink>
         </NavLinks>
