@@ -1,0 +1,14 @@
+.list-animation-enter {
+  opacity: 0;
+}
+.list-animation-enter-active {
+  opacity: 1;
+  transition: opacity 10000ms;
+}
+.list-animation-exit {
+  opacity: 1;
+}
+.list-animation-exit-active {
+  opacity: 0;
+  transition: opacity 2000ms;
+}

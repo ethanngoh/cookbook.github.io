@@ -5,6 +5,8 @@ import { Instruction } from "./instructionText";
 import { Recipe } from "../model/recipe";
 import { RecipeAction } from "../model/recipeAction";
 import { RecipeActionsView, RecipeGraph } from "../recipeGraph/recipeGraph";
+import { useState } from "react";
+import { CSSTransition } from "react-transition-group";
 
 const InstructionsListDiv = styled.div`
   display: flex;
@@ -53,13 +55,16 @@ export const Instructions = ({
   step: number;
   actions: RecipeActionsView;
 }) => {
+  const [showButton, setShowButton] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
+
   return (
     <InstructionsListDiv>
       <RecipeName>{recipe.name}</RecipeName>
       <NonCurrentInstructionList>
         {actions.prev.map((e) => {
           return (
-            <ChecklistItem>
+            <ChecklistItem key={e.id}>
               <Instruction recipeAction={e} recipe={recipe} />
             </ChecklistItem>
           );
@@ -67,13 +72,23 @@ export const Instructions = ({
       </NonCurrentInstructionList>
       <CurrentInstructionList>
         <ChecklistItem>
+          <CSSTransition
+            in={showMessage}
+            timeout={10000}
+            classNames="list-animation"
+            unmountOnExit
+            onEnter={() => setShowButton(false)}
+            onExited={() => setShowButton(true)}
+          >
+            <p>This alert message is being transitioned in and out of the DOM.</p>
+          </CSSTransition>
           <Instruction recipeAction={actions.current} recipe={recipe} />
         </ChecklistItem>
       </CurrentInstructionList>
       <NonCurrentInstructionList>
         {actions.next.map((e) => {
           return (
-            <ChecklistItem>
+            <ChecklistItem key={e.id}>
               <Instruction recipeAction={e} recipe={recipe} />
             </ChecklistItem>
           );
@@ -85,6 +100,7 @@ export const Instructions = ({
         <ChecklistItem>Debug</ChecklistItem>
         <ChecklistItem>Max Steps: {recipeGraph.maxSteps}</ChecklistItem>
         <ChecklistItem>Current Step: {step}</ChecklistItem>
+        {showButton && <button onClick={() => setShowMessage(true)}>Show Message</button>}
       </NonCurrentInstructionList>
     </InstructionsListDiv>
   );
