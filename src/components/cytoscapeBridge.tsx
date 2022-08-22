@@ -45,7 +45,7 @@ export const CytoscapeBridge = ({
     <div
       className={css`
         display: flex;
-        align-items: center;
+        align-items: start;
         height: 10%;
       `}
     >

@@ -1,12 +1,13 @@
-import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { COLORS_1 } from "./colors";
 import { CytoscapeBridge } from "./components/cytoscapeBridge";
 import { CytoscapeControls } from "./components/cytoscapeControls";
 import { DebugView } from "./components/debugView";
+import { Ingredients } from "./components/ingredients";
 import { Instructions } from "./components/instructions";
 import { Navigation } from "./components/navigation/navigation";
+import { TabControls } from "./components/tabControls";
 import { useBackgroundColor } from "./hooks/useBackgroundColor";
 import { toCytoscapeOptions } from "./recipeGraph/cytoscapeOptions";
 import { convertToGraph } from "./recipeGraph/recipeReader";
@@ -22,14 +23,14 @@ const Container = styled.div`
 const CenteredPageContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: top;
+  align-items: start;
 `;
 
 const LeftPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: top;
+  align-items: start;
 `;
 
 const RecipeName = styled.h1`
@@ -46,6 +47,7 @@ const App = () => {
   const subGraph = recipeGraph.getRecipeStep(currentStep);
   const actions = recipeGraph.getRecipeActions(currentStep);
   const cyOptions = toCytoscapeOptions(subGraph.nodes, subGraph.edges);
+  const [currentTab, setCurrentTab] = useState(0);
 
   return (
     <Container>
@@ -53,9 +55,11 @@ const App = () => {
       <CenteredPageContainer>
         <LeftPageContainer>
           <RecipeName>{recipe.name}</RecipeName>
-          <span>Controls here</span>
-          <Instructions recipe={recipe} recipeGraph={recipeGraph} currentStep={currentStep} actions={actions} />
-          <DebugView recipeGraph={recipeGraph} currentStep={currentStep} />
+          <TabControls currentTab={currentTab} setCurrentTab={setCurrentTab}>
+            <Instructions recipe={recipe} currentStep={currentStep} actions={actions} />
+            <Ingredients recipe={recipe} />
+          </TabControls>
+          {/* <DebugView recipeGraph={recipeGraph} currentStep={currentStep} /> */}
         </LeftPageContainer>
         <CytoscapeBridge
           id={"cy"}

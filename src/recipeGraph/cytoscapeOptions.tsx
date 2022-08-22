@@ -1,3 +1,4 @@
+import { COLORS, COLORS_1 } from "../colors";
 import { edgeId, EdgesSet, NodesSet } from "./graphCommon";
 
 export function toCytoscapeOptions(nodes: NodesSet, edges: EdgesSet) {
@@ -37,6 +38,7 @@ export function toCytoscapeOptions(nodes: NodesSet, edges: EdgesSet) {
       name: "dagre",
       padding: 5,
       nodeSep: 30,
+      align: "DL",
       spacingFactor: 1.5
     }
   };
@@ -58,10 +60,10 @@ function globalGraphStyles() {
       selector: "edge",
       style: {
         "curve-style": "bezier",
-        width: "5",
+        width: "1em",
         "target-arrow-shape": "triangle",
-        "line-color": "#ffaaaa",
-        "target-arrow-color": "#ffaaaa"
+        "line-color": "red",
+        "target-arrow-color": "red"
       }
     }
   ];
@@ -69,12 +71,24 @@ function globalGraphStyles() {
 
 const EDGE_STYLE: { [key: string]: { [key: string]: string } } = {
   combine: {
-    "line-color": "#0000ff",
-    "target-arrow-color": "#0000ff"
+    "line-color": COLORS.COMBINE,
+    "target-arrow-color": COLORS.COMBINE
   },
   saute: {
-    "line-color": "#ffaaaa",
-    "target-arrow-color": "#ffaaaa"
+    "line-color": COLORS.SAUTE,
+    "target-arrow-color": COLORS.SAUTE
+  },
+  start: {
+    "line-color": COLORS.ENDPOINT,
+    "target-arrow-color": COLORS.ENDPOINT
+  },
+  serve: {
+    "line-color": COLORS.ENDPOINT,
+    "target-arrow-color": COLORS.ENDPOINT
+  },
+  transfer: {
+    "line-color": COLORS.TRANSFER,
+    "target-arrow-color": COLORS.TRANSFER
   }
 };
 

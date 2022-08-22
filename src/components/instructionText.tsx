@@ -51,17 +51,18 @@ const InstructionDiv = styled.div`
 const StepNumber = styled.span`
   background: ${COLORS_1.BACKGROUND_EMPH2};
   border-radius: 1000px;
-  padding: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  margin-right: 1rem;
 `;
 
 const InstructionTextSpan = styled.span`
   line-height: 1.75rem;
 `;
 
-export const Instruction = ({ recipeAction, recipe }: { recipeAction: RecipeAction; recipe: Recipe }) => {
+export const Instruction = ({ recipeAction, recipe, i }: { recipeAction: RecipeAction; recipe: Recipe; i: number }) => {
   return (
     <InstructionDiv>
-      <StepNumber>{recipeAction.id}</StepNumber>
+      <StepNumber>{i}</StepNumber>
       <InstructionText recipe={recipe} recipeAction={recipeAction} />
     </InstructionDiv>
   );

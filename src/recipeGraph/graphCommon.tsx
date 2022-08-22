@@ -8,7 +8,7 @@ export function nodeId(node: string) {
 
 export interface GraphNode {
   id: string;
-  style: { [key: string]: string };
+  style: { [key: string]: string | undefined };
 }
 
 export interface GraphEdge {

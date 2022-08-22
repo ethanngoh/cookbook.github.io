@@ -1,3 +1,4 @@
+import { BiDish } from "react-icons/bi";
 import { FaCarrot, FaArrowAltCircleRight } from "react-icons/fa";
 import { GiCorn, GiGasStove, GiSaucepan } from "react-icons/gi";
 import { IconType } from "react-icons";
@@ -20,11 +21,14 @@ export interface IconInfo {
 export interface SvgIconInfo extends IconInfo {
   backgroundColor: string;
   fill: string;
-  svgCss: string;
+  url: string;
 }
 
-export interface ReactIconInfo extends SvgIconInfo {
+export interface ReactIconInfo extends IconInfo {
+  backgroundColor: string;
+  fill: string;
   reactIconType: IconType;
+  svgCss: string;
 }
 
 export interface PngIconInfo extends IconInfo {
@@ -43,48 +47,90 @@ const ICONS: { [key: string]: AnyIconInfo } = {
     svgCss: ""
   },
   corn: {
-    source: IconSource.ReactIcon,
-    reactIconType: GiCorn,
-    backgroundColor: "#eee",
-    fill: "#FBEC5D",
+    source: IconSource.Png,
     borderColor: COLORS.VEGETABLE,
-    svgCss: ""
+    url: "img/png/corn.jpeg"
   },
   start: {
     source: IconSource.ReactIcon,
     reactIconType: FaArrowAltCircleRight,
     backgroundColor: "#fff",
-    fill: COLORS.START,
-    borderColor: COLORS.START,
+    fill: COLORS.ENDPOINT,
+    borderColor: COLORS.ENDPOINT,
     svgCss: ""
   },
-  frying_pan: {
+  end: {
     source: IconSource.ReactIcon,
-    reactIconType: GiSaucepan,
+    reactIconType: BiDish,
     backgroundColor: "#fff",
-    fill: COLORS.BLACK,
-    borderColor: COLORS.BLACK,
-    svgCss: fryingPan
+    fill: COLORS.ENDPOINT,
+    borderColor: COLORS.ENDPOINT,
+    svgCss: ""
+  },
+  fryingPan: {
+    source: IconSource.Png,
+    borderColor: COLORS.CONTAINER,
+    url: "img/png/frying-pan.png"
+  },
+  castIronPan: {
+    source: IconSource.Png,
+    borderColor: COLORS.CONTAINER,
+    url: "img/png/cast-iron-pan.jpg"
   },
   shallot: {
     source: IconSource.Png,
-    url: "https://live.staticflickr.com/1261/1413379559_412a540d29_b.jpg",
+    url: "img/png/shallot.jpeg",
     borderColor: COLORS.VEGETABLE
+  },
+  butter: {
+    source: IconSource.Png,
+    url: "img/png/butter.jpeg",
+    borderColor: COLORS.DAIRY
+  },
+  pepper: {
+    source: IconSource.Png,
+    url: "img/png/black-pepper.jpeg",
+    borderColor: COLORS.CONDIMENT
+  },
+  bellPepper: {
+    source: IconSource.Png,
+    url: "img/png/bell-pepper_chopped.jpeg",
+    borderColor: COLORS.VEGETABLE
+  },
+  mozzarellaShredded: {
+    source: IconSource.Png,
+    url: "img/png/mozzarella_shredded.jpeg",
+    borderColor: COLORS.DAIRY
+  },
+  salt: {
+    source: IconSource.Png,
+    url: "img/png/salt.jpeg",
+    borderColor: COLORS.CONDIMENT
+  },
+  sourCream: {
+    source: IconSource.Png,
+    url: "img/png/sour-cream.jpeg",
+    borderColor: COLORS.DAIRY
+  },
+  sugar: {
+    source: IconSource.Png,
+    url: "img/png/sugar.jpeg",
+    borderColor: COLORS.CONDIMENT
   },
   stove: {
     source: IconSource.ReactIcon,
     reactIconType: GiGasStove,
     backgroundColor: "#fff",
-    fill: COLORS.BLACK,
-    borderColor: COLORS.BLACK,
+    fill: COLORS.APPLIANCE,
+    borderColor: COLORS.APPLIANCE,
     svgCss: fryingPan
   },
   microwave: {
     source: IconSource.ReactIcon,
     reactIconType: MdOutlineMicrowave,
     backgroundColor: "#fff",
-    fill: COLORS.BLACK,
-    borderColor: COLORS.BLACK,
+    fill: COLORS.APPLIANCE,
+    borderColor: COLORS.APPLIANCE,
     svgCss: fryingPan
   }
 };
@@ -98,15 +144,16 @@ Object.keys(ICONS).forEach((e) => {
   }
 });
 
-export function getNodeStyle(iconName: string) {
+export function getIconStyle(iconName: string) {
   const anyIconInfo = ICONS[iconName];
+
   if (!anyIconInfo) {
+    debugger;
     return {
       "background-image": "https://live.staticflickr.com/7272/7633179468_3e19e45a0c_b.jpg",
       "border-color": "black"
     };
   }
-
   switch (anyIconInfo.source) {
     case IconSource.Png:
       const pngIconInfo = anyIconInfo as PngIconInfo;
@@ -115,10 +162,15 @@ export function getNodeStyle(iconName: string) {
         "border-color": pngIconInfo.borderColor
       };
     case IconSource.ReactIcon:
+      const reactIconInfo = anyIconInfo as ReactIconInfo;
+      return {
+        "background-image": reactIconInfo.svgCss,
+        "border-color": reactIconInfo.borderColor
+      };
     case IconSource.Svg:
       const svgIconInfo = anyIconInfo as SvgIconInfo;
       return {
-        "background-image": svgIconInfo.svgCss,
+        "background-image": svgIconInfo.url,
         "border-color": svgIconInfo.borderColor
       };
   }

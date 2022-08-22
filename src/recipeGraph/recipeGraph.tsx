@@ -29,7 +29,10 @@ export class RecipeGraph {
 
       const isCurrentStep = edge!.order == step;
       const otherNodeStyle = { opacity: "0.2" };
-      const currentEdgeStyle = { opacity: isCurrentStep ? "1" : "0.2", width: isCurrentStep ? "9" : "4" };
+      const currentEdgeStyle = {
+        opacity: isCurrentStep ? "1" : "0.2",
+        width: isCurrentStep ? "6px" : "3px"
+      };
 
       const nodeId = edge!.source;
       this.addNode(nodeId, relevantNodes, otherNodeStyle);
@@ -42,8 +45,13 @@ export class RecipeGraph {
         currentStepNodes[nodeId] = nodeId;
         currentStepNodes[nodeId2] = nodeId2;
 
-        relevantNodes[nodeId].style["opacity"] = "1";
-        relevantNodes[nodeId2].style["opacity"] = "1";
+        const currentNodeStyle = {
+          opacity: "1",
+          width: "6em",
+          height: "6em"
+        };
+        relevantNodes[nodeId].style = { ...relevantNodes[nodeId].style, ...currentNodeStyle };
+        relevantNodes[nodeId2].style = { ...relevantNodes[nodeId2].style, ...currentNodeStyle };
       }
 
       relevantEdges[key] = {

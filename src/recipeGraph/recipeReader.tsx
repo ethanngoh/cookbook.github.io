@@ -1,4 +1,4 @@
-import { getNodeStyle } from "../icons/icons";
+import { getIconStyle } from "../icons/icons";
 import { Recipe } from "../model/recipe";
 import { CombineAction, RecipeAction } from "../model/recipeAction";
 import { getEdgeStyle } from "./cytoscapeOptions";
@@ -46,7 +46,7 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
     const [node1, node2] = parseGraphString(step.graph);
 
     if (node1 === "*" && step.action === "combine") {
-      addToGraphForCombineAction(step, stepIndex, nodes, node2, edges);
+      addToGraphForCombineAction(recipe, step, stepIndex, nodes, node2, edges);
     } else {
       addToGraph(recipe, step, stepIndex, nodes, node1, node2, edges);
     }
@@ -55,7 +55,15 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
   return new RecipeGraph(nodes, edges, recipe);
 }
 
-function graphToContainerName(graphName: string, recipe: Recipe) {
+function ingredientIconName(ingredientId: string, recipe: Recipe) {
+  const container = recipe.ingredients.filter((e) => e.id == ingredientId)[0];
+  if (!container) {
+    debugger;
+  }
+  return container.iconName;
+}
+
+function graphToContainerIconName(graphName: string, recipe: Recipe) {
   const dotIndex = graphName.indexOf(".");
   const containerId = dotIndex == -1 ? graphName : graphName.substring(0, graphName.indexOf("."));
 
@@ -66,7 +74,7 @@ function graphToContainerName(graphName: string, recipe: Recipe) {
 
   const container = recipe.containers.filter((e) => e.id == containerId)[0];
 
-  return container.name;
+  return container.iconName;
 }
 
 function addToGraph(
@@ -79,17 +87,17 @@ function addToGraph(
   edges: EdgesSet
 ) {
   const n1Key = nodeId(node1);
-  const containerName = graphToContainerName(n1Key, recipe);
+  const n1ContainerIconName = graphToContainerIconName(n1Key, recipe);
   nodes[n1Key] = {
     id: n1Key,
-    style: getNodeStyle(containerName)
+    style: getIconStyle(n1ContainerIconName)
   };
   if (node2) {
     const n2Key = nodeId(node2);
-    const n2ContainerName = graphToContainerName(n2Key, recipe);
+    const n2ContainerIconName = graphToContainerIconName(n2Key, recipe);
     nodes[n2Key] = {
       id: n2Key,
-      style: getNodeStyle(n2ContainerName)
+      style: getIconStyle(n2ContainerIconName)
     };
 
     const eKey = edgeId(node1, node2);
@@ -105,6 +113,7 @@ function addToGraph(
 }
 
 function addToGraphForCombineAction(
+  recipe: Recipe,
   step: RecipeAction,
   stepIndex: number,
   nodes: NodesSet,
@@ -114,23 +123,20 @@ function addToGraphForCombineAction(
   var combinedStep = step as CombineAction;
   for (var ingredient of combinedStep.ingredientIds) {
     const n1Key = nodeId(ingredient);
+    const n1IconName = ingredientIconName(ingredient, recipe);
     nodes[n1Key] = {
       id: n1Key,
-      style: { "background-image": "https://live.staticflickr.com/7272/7633179468_3e19e45a0c_b.jpg" }
+      style: getIconStyle(n1IconName)
     };
 
     const eKey = edgeId(ingredient, node2);
-    const n2Key = nodeId(node2);
     edges[eKey] = {
       id: eKey,
       source: n1Key,
-      target: n2Key,
+      target: nodeId(node2),
       data: step,
       order: stepIndex,
-      style: {
-        "line-color": "#0000ff",
-        "target-arrow-color": "#0000ff"
-      }
+      style: getEdgeStyle(step.action)
     };
   }
 }
