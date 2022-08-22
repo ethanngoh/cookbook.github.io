@@ -42,22 +42,22 @@ export const TabControls = ({
   return (
     <TabControlsContainer>
       <ControlRow>
-        <TabButton onClick={() => setCurrentTab(0)} disabled={currentTab == 0}>
+        <TabButton onClick={() => setCurrentTab(0)} disabled={currentTab === 0}>
           <GiTomato color={COLORS_1.TOMATO} size={25} />
         </TabButton>
-        <TabButton onClick={() => setCurrentTab(1)} disabled={currentTab == 1}>
-          <FaListOl color={"white"} size={25} style={{ color: currentTab == 1 ? COLORS.WHITE : COLORS.BLACK }} />
+        <TabButton onClick={() => setCurrentTab(1)} disabled={currentTab === 1}>
+          <FaListOl color={"white"} size={25} style={{ color: currentTab === 1 ? COLORS.WHITE : COLORS.BLACK }} />
         </TabButton>
-        <TabButton onClick={() => setCurrentTab(2)} disabled={currentTab == 2}>
+        <TabButton onClick={() => setCurrentTab(2)} disabled={currentTab === 2}>
           <AiOutlinePicture
             color={"white"}
             size={25}
-            style={{ color: currentTab == 2 ? COLORS.WHITE : COLORS.BLACK }}
+            style={{ color: currentTab === 2 ? COLORS.WHITE : COLORS.BLACK }}
           />
         </TabButton>
       </ControlRow>
       {React.Children.map(children, (e: any, i: number) => {
-        return <div style={{ display: currentTab == i ? "initial" : "none" }}>{e}</div>;
+        return <div style={{ display: currentTab === i ? "initial" : "none" }}>{e}</div>;
       })}
     </TabControlsContainer>
   );

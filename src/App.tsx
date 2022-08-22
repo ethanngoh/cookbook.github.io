@@ -7,11 +7,12 @@ import { DebugView } from "./components/debugView";
 import { Ingredients } from "./components/ingredients";
 import { Instructions } from "./components/instructions";
 import { Navigation } from "./components/navigation/navigation";
+import { Pictures } from "./components/pictures";
 import { TabControls } from "./components/tabControls";
 import { useBackgroundColor } from "./hooks/useBackgroundColor";
 import { toCytoscapeOptions } from "./recipeGraph/cytoscapeOptions";
 import { convertToGraph } from "./recipeGraph/recipeReader";
-import * as recipes from "./recipes.json";
+import * as recipes from "./recipeData/recipes.json";
 
 const Container = styled.div`
   width: 100vw;
@@ -50,29 +51,32 @@ const App = () => {
   const [currentTab, setCurrentTab] = useState(0);
 
   return (
-    <Container>
-      <Navigation />
-      <CenteredPageContainer>
-        <LeftPageContainer>
-          <RecipeName>{recipe.name}</RecipeName>
-          <TabControls currentTab={currentTab} setCurrentTab={setCurrentTab}>
-            <Instructions recipe={recipe} currentStep={currentStep} actions={actions} />
-            <Ingredients recipe={recipe} />
-          </TabControls>
-          {/* <DebugView recipeGraph={recipeGraph} currentStep={currentStep} /> */}
-        </LeftPageContainer>
-        <CytoscapeBridge
-          id={"cy"}
-          nodes={cyOptions.nodes}
-          edges={cyOptions.edges}
-          style={cyOptions.style}
-          layout={cyOptions.layout}
-        />
-      </CenteredPageContainer>
-      <CenteredPageContainer>
-        <CytoscapeControls currentStep={currentStep} setStep={setStep} maxStep={recipeGraph.maxSteps} />
-      </CenteredPageContainer>
-    </Container>
+    <>
+      <Container>
+        <Navigation />
+        <CenteredPageContainer>
+          <LeftPageContainer>
+            <RecipeName>{recipe.name}</RecipeName>
+            <TabControls currentTab={currentTab} setCurrentTab={setCurrentTab}>
+              <Instructions recipe={recipe} currentStep={currentStep} actions={actions} />
+              <Ingredients recipe={recipe} />
+              <Pictures images={recipe.images} />
+            </TabControls>
+            {/* <DebugView recipeGraph={recipeGraph} currentStep={currentStep} /> */}
+          </LeftPageContainer>
+          <CytoscapeBridge
+            id={"cy"}
+            nodes={cyOptions.nodes}
+            edges={cyOptions.edges}
+            style={cyOptions.style}
+            layout={cyOptions.layout}
+          />
+        </CenteredPageContainer>
+        <CenteredPageContainer>
+          <CytoscapeControls currentStep={currentStep} setStep={setStep} maxStep={recipeGraph.maxSteps} />
+        </CenteredPageContainer>
+      </Container>
+    </>
   );
 };
 

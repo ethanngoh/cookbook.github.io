@@ -18,7 +18,7 @@ export function parseGraphString(graphStr: string) {
 }
 
 export function getIngredientName(recipe: Recipe, id: string): string {
-  const x = recipe.ingredients.filter((e) => e.id == id)[0];
+  const x = recipe.ingredients.filter((e) => e.id === id)[0];
   if (x) {
     return x.name;
   }
@@ -28,7 +28,7 @@ export function getIngredientName(recipe: Recipe, id: string): string {
 }
 
 export function getContainerName(recipe: Recipe, id: string): string {
-  const x = recipe.containers.filter((e) => e.id == id)[0];
+  const x = recipe.containers.filter((e) => e.id === id)[0];
   if (x) {
     return x.name;
   }
@@ -56,7 +56,7 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
 }
 
 function ingredientIconName(ingredientId: string, recipe: Recipe) {
-  const container = recipe.ingredients.filter((e) => e.id == ingredientId)[0];
+  const container = recipe.ingredients.filter((e) => e.id === ingredientId)[0];
   if (!container) {
     debugger;
   }
@@ -65,14 +65,14 @@ function ingredientIconName(ingredientId: string, recipe: Recipe) {
 
 function graphToContainerIconName(graphName: string, recipe: Recipe) {
   const dotIndex = graphName.indexOf(".");
-  const containerId = dotIndex == -1 ? graphName : graphName.substring(0, graphName.indexOf("."));
+  const containerId = dotIndex === -1 ? graphName : graphName.substring(0, graphName.indexOf("."));
 
   // Special case start and end terminal nodes.
-  if (containerId == "start" || containerId == "end") {
+  if (containerId === "start" || containerId === "end") {
     return containerId;
   }
 
-  const container = recipe.containers.filter((e) => e.id == containerId)[0];
+  const container = recipe.containers.filter((e) => e.id === containerId)[0];
 
   return container.iconName;
 }

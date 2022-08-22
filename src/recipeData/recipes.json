@@ -1,6 +1,29 @@
 {
   "id": "r1",
   "name": "Corn cheese",
+  "images": [
+    {
+      "metadata": {},
+      "original": "img/png/butter.jpeg",
+      "originalHeight": 400,
+      "thumbnail": "img/png/butter.jpeg",
+      "thumbnailHeight": 100
+    },
+    {
+      "metadata": {},
+      "original": "img/png/butter.jpeg",
+      "originalHeight": 400,
+      "thumbnail": "img/png/butter.jpeg",
+      "thumbnailHeight": 100
+    },
+    {
+      "metadata": {},
+      "original": "img/png/butter.jpeg",
+      "originalHeight": 400,
+      "thumbnail": "img/png/butter.jpeg",
+      "thumbnailHeight": 100
+    }
+  ],
   "ingredients": [
     {
       "id": "butter",

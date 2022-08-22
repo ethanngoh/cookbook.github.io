@@ -27,7 +27,7 @@ export class RecipeGraph {
         continue;
       }
 
-      const isCurrentStep = edge!.order == step;
+      const isCurrentStep = edge!.order === step;
       const otherNodeStyle = { opacity: "0.2" };
       const currentEdgeStyle = {
         opacity: isCurrentStep ? "1" : "0.2",
@@ -79,7 +79,7 @@ export class RecipeGraph {
       const diff = edge.order - step;
       if (diff < 0) {
         previousActions[action.id] = action;
-      } else if (diff == 0) {
+      } else if (diff === 0) {
         currentAction = action;
       } else if (diff > 0) {
         nextActions[action.id] = action;

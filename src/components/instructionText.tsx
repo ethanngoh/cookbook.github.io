@@ -86,7 +86,7 @@ export const InstructionText = ({ recipeAction, recipe }: { recipeAction: Recipe
 };
 
 function conjunction(words: string[]) {
-  if (words.length == 1) {
+  if (words.length === 1) {
     return (
       <InstructionTextSpan>
         <IngredientSpan>{words.at(0)}</IngredientSpan>,{" "}

@@ -137,7 +137,7 @@ const ICONS: { [key: string]: AnyIconInfo } = {
 
 Object.keys(ICONS).forEach((e) => {
   const iconInfo = ICONS[e];
-  if (iconInfo.source == IconSource.ReactIcon) {
+  if (iconInfo.source === IconSource.ReactIcon) {
     const reactIconInfo = iconInfo as ReactIconInfo;
     const iconSvg = iconToSvgString(reactIconInfo.reactIconType, reactIconInfo.backgroundColor, reactIconInfo.fill);
     reactIconInfo.svgCss = svgForCssBackgroundImage(iconSvg);

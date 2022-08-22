@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { COLORS_1 } from "../colors";
 import { Ingredient } from "../model/ingredient";
 import { Recipe } from "../model/recipe";
-import { RecipeGraph } from "../recipeGraph/recipeGraph";
 
 const IngredientsDiv = styled.div`
   display: flex;
@@ -38,17 +37,19 @@ export const Ingredients = ({ recipe }: { recipe: Recipe }) => {
     <IngredientsDiv>
       <h2>Ingredients</h2>
       <table>
-        {recipe.ingredients.map((item: Ingredient, i: number) => (
-          <tr key={item.id}>
-            <td>
-              <StepNumber>{(i + 10).toString(32)}</StepNumber>
-            </td>
-            <IngredientAmount>
-              {item.amount.value} {item.amount.unit}
-            </IngredientAmount>
-            <td style={{ width: "100%" }}>{item.name}</td>
-          </tr>
-        ))}
+        <tbody>
+          {recipe.ingredients.map((item: Ingredient, i: number) => (
+            <tr key={item.id}>
+              <td>
+                <StepNumber>{(i + 10).toString(32)}</StepNumber>
+              </td>
+              <IngredientAmount>
+                {item.amount.value} {item.amount.unit}
+              </IngredientAmount>
+              <td style={{ width: "100%" }}>{item.name}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </IngredientsDiv>
   );
