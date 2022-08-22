@@ -85,6 +85,14 @@ export const InstructionText = ({ recipeAction, recipe }: { recipeAction: Recipe
 };
 
 function conjunction(words: string[]) {
+  if (words.length == 1) {
+    return (
+      <InstructionTextSpan>
+        <IngredientSpan>{words.at(0)}</IngredientSpan>,{" "}
+      </InstructionTextSpan>
+    );
+  }
+
   const wordsHtml = words.map((e) => (
     <InstructionTextSpan>
       <IngredientSpan>{e}</IngredientSpan>,{" "}

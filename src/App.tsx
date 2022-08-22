@@ -4,6 +4,7 @@ import { useState } from "react";
 import { COLORS_1 } from "./colors";
 import { CytoscapeBridge } from "./components/cytoscapeBridge";
 import { CytoscapeControls } from "./components/cytoscapeControls";
+import { DebugView } from "./components/debugView";
 import { Instructions } from "./components/instructions";
 import { Navigation } from "./components/navigation/navigation";
 import { useBackgroundColor } from "./hooks/useBackgroundColor";
@@ -24,11 +25,17 @@ const CenteredPageContainer = styled.div`
   align-items: top;
 `;
 
-const PageFlow = styled.div`
+const LeftPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: top;
+`;
+
+const RecipeName = styled.h1`
+  font-size: 48px;
+  font-family: "Lexend Deca", sans-serif;
+  font-weight: 400;
 `;
 
 const App = () => {
@@ -37,18 +44,20 @@ const App = () => {
   const recipe = recipes;
   const recipeGraph = convertToGraph(recipe);
   const subGraph = recipeGraph.getRecipeStep(currentStep);
-  const actions = subGraph.getRecipeActions(currentStep);
+  const actions = recipeGraph.getRecipeActions(currentStep);
   const cyOptions = toCytoscapeOptions(subGraph.nodes, subGraph.edges);
 
   return (
     <Container>
       <Navigation />
       <CenteredPageContainer>
-        <Instructions recipe={recipe} recipeGraph={recipeGraph} step={currentStep} actions={actions} />
+        <LeftPageContainer>
+          <RecipeName>{recipe.name}</RecipeName>
+          <span>Controls here</span>
+          <Instructions recipe={recipe} recipeGraph={recipeGraph} currentStep={currentStep} actions={actions} />
+          <DebugView recipeGraph={recipeGraph} currentStep={currentStep} />
+        </LeftPageContainer>
         <CytoscapeBridge
-          currentStep={currentStep}
-          setStep={setStep}
-          maxStep={recipeGraph.maxSteps}
           id={"cy"}
           nodes={cyOptions.nodes}
           edges={cyOptions.edges}

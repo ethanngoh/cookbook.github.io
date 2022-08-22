@@ -3,6 +3,7 @@ import { RecipeAction } from "./recipeAction";
 
 export interface Container {
   id: string;
+  iconName: string;
   name: string;
   size: string;
 }

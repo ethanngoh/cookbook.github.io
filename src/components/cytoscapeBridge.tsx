@@ -1,8 +1,7 @@
-import { useLayoutEffect, useRef } from "react";
+import { css } from "@emotion/css";
 import cytoscape from "cytoscape";
 import dagre from "cytoscape-dagre";
-import { css } from "@emotion/css";
-import { CytoscapeNavLeft, CytoscapeNavRight } from "./cytoscapeNavigation";
+import { useLayoutEffect, useRef } from "react";
 
 cytoscape.use(dagre);
 
@@ -11,19 +10,13 @@ export const CytoscapeBridge = ({
   nodes,
   edges,
   style,
-  layout,
-  currentStep,
-  setStep,
-  maxStep
+  layout
 }: {
   id: string;
   nodes: any;
   edges: any;
   style: any;
   layout: any;
-  currentStep: number;
-  setStep: React.Dispatch<React.SetStateAction<number>>;
-  maxStep: number;
 }) => {
   const ref = useRef(null);
 

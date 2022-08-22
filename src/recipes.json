@@ -4,6 +4,7 @@
   "ingredients": [
     {
       "id": "butter",
+      "iconName": "butter",
       "name": "Unsalted Butter",
       "amount": {
         "unit": "tbsp",
@@ -12,6 +13,7 @@
     },
     {
       "id": "corn",
+      "iconName": "corn",
       "name": "Corn",
       "amount": {
         "unit": "oz",
@@ -21,6 +23,7 @@
     },
     {
       "id": "bell pepper",
+      "iconName": "bell-pepper",
       "name": "Bell Pepper",
       "amount": {
         "unit": "count",
@@ -28,7 +31,8 @@
       }
     },
     {
-      "id": "shallots",
+      "id": "shallot",
+      "iconName": "shallot",
       "name": "Shallot",
       "amount": {
         "unit": "count",
@@ -37,6 +41,7 @@
     },
     {
       "id": "sugar",
+      "iconName": "sugar",
       "name": "Sugar",
       "amount": {
         "unit": "tsp",
@@ -45,6 +50,7 @@
     },
     {
       "id": "salt",
+      "iconName": "salt",
       "name": "Salt",
       "amount": {
         "unit": "pinch",
@@ -53,6 +59,7 @@
     },
     {
       "id": "pepper",
+      "iconName": "pepper",
       "name": "Pepper",
       "amount": {
         "unit": "taste",
@@ -61,6 +68,7 @@
     },
     {
       "id": "sour cream",
+      "iconName": "sour-cream",
       "name": "Sour Cream",
       "amount": {
         "unit": "tbsp",
@@ -69,6 +77,7 @@
     },
     {
       "id": "mozzarella",
+      "iconName": "mozzarella_shredded",
       "name": "Shredded Mozzarella",
       "amount": {
         "unit": "cup",
@@ -79,11 +88,13 @@
   "containers": [
     {
       "id": "c1",
+      "iconName": "frying-pan",
       "name": "Frying Pan",
       "size": "medium"
     },
     {
       "id": "c2",
+      "iconName": "cast-iron-pan",
       "name": "Cast Iron Pan",
       "size": "medium"
     }
@@ -108,7 +119,7 @@
     {
       "id": "s1",
       "action": "combine",
-      "ingredientIds": ["butter", "corn", "bell pepper", "shallots"],
+      "ingredientIds": ["butter", "corn", "bell pepper", "shallot"],
       "containerId": "c1",
       "graph": "* -> c1"
     },
