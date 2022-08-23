@@ -35,13 +35,13 @@ const TimeSpan = styled.span`
 `;
 
 const HeatSpan = styled.span`
-  background-color: ${COLORS_1.COOK};
+  background-color: ${COLORS_1.INSTRUCTIONS_COOK};
   color: ${COLORS.WHITE};
   ${HighlightedText};
 `;
 
 const SettingSpan = styled.span`
-  background-color: ${COLORS_1.COOK};
+  background-color: ${COLORS_1.INSTRUCTIONS_COOK};
   color: ${COLORS.WHITE};
   ${HighlightedText};
 `;

@@ -1,14 +1,15 @@
 export function edgeId(node1: string, node2: string) {
-  return `${node1.toLocaleLowerCase()}-${node2.toLocaleLowerCase()}`.replace(" ", "_");
+  return `${node1}-${node2}`.replace(" ", "_");
 }
 
 export function nodeId(node: string) {
-  return `${node.toLocaleLowerCase()}`.replace(" ", "_");
+  return `${node}`.replace(" ", "_");
 }
 
 export interface GraphNode {
   id: string;
-  style: { [key: string]: string | undefined };
+  iconName: string;
+  style?: { [key: string]: string | undefined };
 }
 
 export interface GraphEdge {
@@ -17,7 +18,8 @@ export interface GraphEdge {
   source: string;
   target: string;
   data: any;
-  style: { [key: string]: string };
+  action: string;
+  style?: { [key: string]: string };
 }
 
 export type NodesSet = { [key: string]: GraphNode };

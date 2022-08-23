@@ -1,5 +1,6 @@
 import { Recipe } from "../model/recipe";
 import { RecipeAction } from "../model/recipeAction";
+import { getEdgeStyle, getNodeStyle, GRAPH_STEP_DISTANCE } from "./cytoscapeOptions";
 import { EdgesSet, NodesSet } from "./graphCommon";
 
 export type RecipeActionsView = { prev: RecipeAction[]; current: RecipeAction; next: RecipeAction[] };
@@ -23,35 +24,27 @@ export class RecipeGraph {
     const currentStepNodes: { [key: string]: string } = {};
 
     for (var [key, edge] of Object.entries(this.edges).sort(([ak, av], [bk, bv]) => av.order - bv.order)) {
-      if (Math.abs(edge.order - step) > 2) {
+      if (Math.abs(edge.order - step) > GRAPH_STEP_DISTANCE) {
         continue;
       }
 
       const isCurrentStep = edge!.order === step;
-      const otherNodeStyle = { opacity: "0.2" };
-      const currentEdgeStyle = {
-        opacity: isCurrentStep ? "1" : "0.2",
-        width: isCurrentStep ? "6px" : "3px"
-      };
 
-      const nodeId = edge!.source;
-      this.addNode(nodeId, relevantNodes, otherNodeStyle);
+      const nodeId1 = edge.source;
+      const node1 = this.nodes[nodeId1];
+      this.addNodeIfDne(nodeId1, relevantNodes, getNodeStyle(node1.iconName, isCurrentStep));
 
-      const nodeId2 = edge!.target;
-      this.addNode(nodeId2, relevantNodes, otherNodeStyle);
+      const nodeId2 = edge.target;
+      const node2 = this.nodes[nodeId2];
+      this.addNodeIfDne(nodeId2, relevantNodes, getNodeStyle(node2.iconName, isCurrentStep));
 
-      // Gate node opacity update so it doesn't get clobbered later
+      // Update node style if it's part of the current step.
+      // This happens because a node could be seen earlier as part of a different step.
       if (isCurrentStep) {
-        currentStepNodes[nodeId] = nodeId;
+        currentStepNodes[nodeId1] = nodeId1;
         currentStepNodes[nodeId2] = nodeId2;
-
-        const currentNodeStyle = {
-          opacity: "1",
-          width: "6em",
-          height: "6em"
-        };
-        relevantNodes[nodeId].style = { ...relevantNodes[nodeId].style, ...currentNodeStyle };
-        relevantNodes[nodeId2].style = { ...relevantNodes[nodeId2].style, ...currentNodeStyle };
+        relevantNodes[nodeId1].style = getNodeStyle(node1.iconName, isCurrentStep);
+        relevantNodes[nodeId2].style = getNodeStyle(node2.iconName, isCurrentStep);
       }
 
       relevantEdges[key] = {
@@ -60,10 +53,8 @@ export class RecipeGraph {
         data: edge.data,
         source: edge.source,
         target: edge.target,
-        style: {
-          ...edge.style,
-          ...currentEdgeStyle
-        }
+        action: edge.action,
+        style: getEdgeStyle(edge.action, isCurrentStep)
       };
     }
 
@@ -88,7 +79,7 @@ export class RecipeGraph {
     return { prev: Object.values(previousActions), current: currentAction!, next: Object.values(nextActions) };
   }
 
-  private addNode(nodeId: string, relevantNodes: NodesSet, opacityStyle: { opacity: string }) {
+  private addNodeIfDne(nodeId: string, relevantNodes: NodesSet, style: { [key: string]: string }) {
     if (!(nodeId in relevantNodes)) {
       const n = this.nodes[nodeId];
       if (!n) {
@@ -96,10 +87,8 @@ export class RecipeGraph {
       }
       relevantNodes[nodeId] = {
         id: n.id,
-        style: {
-          ...n.style,
-          ...opacityStyle
-        }
+        iconName: n.iconName,
+        style: style
       };
     }
   }

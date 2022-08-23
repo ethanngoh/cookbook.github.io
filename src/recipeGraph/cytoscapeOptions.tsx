@@ -1,4 +1,5 @@
-import { COLORS, COLORS_1 } from "../colors";
+import { COLORS_1 } from "../colors";
+import { ICONS, IconSource, PngIconInfo, ReactIconInfo, SvgIconInfo } from "../icons/icons";
 import { edgeId, EdgesSet, NodesSet } from "./graphCommon";
 
 export function toCytoscapeOptions(nodes: NodesSet, edges: EdgesSet) {
@@ -69,6 +70,16 @@ function globalGraphStyles() {
   ];
 }
 
+const CURRENT_EDGE_STYLE: { [key: string]: string } = {
+  opacity: "1",
+  width: "6px"
+};
+
+const NONCURRENT_EDGE_STYLE: { [key: string]: string } = {
+  opacity: "0.2",
+  width: "3px"
+};
+
 const EDGE_STYLE: { [key: string]: { [key: string]: string } } = {
   prep: {
     "line-color": COLORS_1.GRAPH_ENDPOINT,
@@ -100,6 +111,58 @@ const EDGE_STYLE: { [key: string]: { [key: string]: string } } = {
   }
 };
 
-export function getEdgeStyle(edgeType: string) {
-  return EDGE_STYLE[edgeType];
+export function getEdgeStyle(edgeType: string, current: boolean) {
+  const baseStyle = current ? CURRENT_EDGE_STYLE : NONCURRENT_EDGE_STYLE;
+  return { ...baseStyle, ...EDGE_STYLE[edgeType] };
 }
+
+const CURRENT_NODE_STYLE: { [key: string]: string } = {
+  opacity: "1",
+  width: "6em",
+  height: "6em"
+};
+
+const NONCURRENT_NODE_STYLE: { [key: string]: string } = {
+  opacity: "0.2",
+  width: "4em",
+  height: "4em"
+};
+
+export function getNodeStyle(iconName: string, current: boolean) {
+  const anyIconInfo = ICONS[iconName];
+  const baseNodeStyle = current ? CURRENT_NODE_STYLE : NONCURRENT_NODE_STYLE;
+
+  if (!anyIconInfo) {
+    debugger;
+    return {
+      ...baseNodeStyle,
+      background: "red",
+      "border-color": "black"
+    };
+  }
+  switch (anyIconInfo.source) {
+    case IconSource.Png:
+      const pngIconInfo = anyIconInfo as PngIconInfo;
+      return {
+        ...baseNodeStyle,
+        "background-image": pngIconInfo.url,
+        "border-color": pngIconInfo.borderColor
+      };
+    case IconSource.ReactIcon:
+      const reactIconInfo = anyIconInfo as ReactIconInfo;
+      return {
+        ...baseNodeStyle,
+        "background-image": reactIconInfo.svgCss,
+        "border-color": reactIconInfo.borderColor
+      };
+    case IconSource.Svg:
+      const svgIconInfo = anyIconInfo as SvgIconInfo;
+      return {
+        ...baseNodeStyle,
+        "background-image": svgIconInfo.url,
+        "border-color": svgIconInfo.borderColor
+      };
+  }
+}
+
+export const GRAPH_STEP_DISTANCE = 2;

@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { GiChefToque } from "react-icons/gi";
+import { COLORS_1 } from "../../colors";
 import { FontKey, getFont } from "../../fonts";
 
 const NavBrandLink = styled.a`
@@ -6,16 +8,16 @@ const NavBrandLink = styled.a`
 `;
 
 const NavBrandTextContainer = styled.div`
-  display: block;
-  text-align: left;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const NavBrandText = styled.div`
   font-size: 24px;
   font-weight: 600;
   font-family: ${getFont(FontKey.HEADING)};
-  color: #000;
+  color: ${COLORS_1.BRAND};
 `;
 
 const NavBrandImg = styled.img`
@@ -34,6 +36,7 @@ export const NavBrand = () => {
       {/* <NavBrandImg src="img/logo-color.svg" width="40px" alt="logo" /> */}
       <NavBrandLink href="#page-top">
         <NavBrandTextContainer>
+          <GiChefToque size={25} color={COLORS_1.LOGO} />
           <NavBrandText>Cookbook</NavBrandText>
         </NavBrandTextContainer>
       </NavBrandLink>

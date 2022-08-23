@@ -1,7 +1,7 @@
 import { IconType } from "react-icons";
 import { BiDish } from "react-icons/bi";
 import { FaArrowAltCircleRight, FaCarrot } from "react-icons/fa";
-import { GiGasStove } from "react-icons/gi";
+import { GiCampCookingPot, GiGasStove } from "react-icons/gi";
 import { MdOutlineMicrowave } from "react-icons/md";
 import { COLORS, COLORS_1 } from "../colors";
 import { fryingPan } from "./svgRaws";
@@ -37,7 +37,7 @@ export interface PngIconInfo extends IconInfo {
 
 type AnyIconInfo = SvgIconInfo | ReactIconInfo | PngIconInfo;
 
-const ICONS: { [key: string]: AnyIconInfo } = {
+export const ICONS: { [key: string]: AnyIconInfo } = {
   carrot: {
     source: IconSource.ReactIcon,
     reactIconType: FaCarrot,
@@ -57,6 +57,14 @@ const ICONS: { [key: string]: AnyIconInfo } = {
     backgroundColor: "#fff",
     fill: COLORS_1.GRAPH_ENDPOINT,
     borderColor: COLORS_1.GRAPH_ENDPOINT,
+    svgCss: ""
+  },
+  cook: {
+    source: IconSource.ReactIcon,
+    reactIconType: GiCampCookingPot,
+    backgroundColor: "#fff",
+    fill: COLORS_1.GRAPH_COOK,
+    borderColor: COLORS_1.GRAPH_COOK,
     svgCss: ""
   },
   serve: {
@@ -148,35 +156,3 @@ Object.keys(ICONS).forEach((e) => {
     reactIconInfo.svgCss = svgForCssBackgroundImage(iconSvg);
   }
 });
-
-export function getIconStyle(iconName: string) {
-  const anyIconInfo = ICONS[iconName];
-
-  if (!anyIconInfo) {
-    debugger;
-    return {
-      "background-image": "https://live.staticflickr.com/7272/7633179468_3e19e45a0c_b.jpg",
-      "border-color": "black"
-    };
-  }
-  switch (anyIconInfo.source) {
-    case IconSource.Png:
-      const pngIconInfo = anyIconInfo as PngIconInfo;
-      return {
-        "background-image": pngIconInfo.url,
-        "border-color": pngIconInfo.borderColor
-      };
-    case IconSource.ReactIcon:
-      const reactIconInfo = anyIconInfo as ReactIconInfo;
-      return {
-        "background-image": reactIconInfo.svgCss,
-        "border-color": reactIconInfo.borderColor
-      };
-    case IconSource.Svg:
-      const svgIconInfo = anyIconInfo as SvgIconInfo;
-      return {
-        "background-image": svgIconInfo.url,
-        "border-color": svgIconInfo.borderColor
-      };
-  }
-}
