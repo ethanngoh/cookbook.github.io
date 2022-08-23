@@ -6,8 +6,12 @@ export interface BaseRecipeAction {
   description?: string;
 }
 
-export interface PrepAction extends BaseRecipeAction {
-  container: string;
+export interface PrepAction {
+  action: string;
+  graph: string;
+  id: string;
+  containerIds: string[];
+  description?: string;
 }
 
 export interface CookAction extends BaseRecipeAction {

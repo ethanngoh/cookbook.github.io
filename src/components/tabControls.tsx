@@ -3,7 +3,7 @@ import React from "react";
 import { AiOutlinePicture } from "react-icons/ai";
 import { FaListOl } from "react-icons/fa";
 import { GiTomato } from "react-icons/gi";
-import { COLORS_1 } from "../colors";
+import { COLORS } from "../colors";
 
 const TabControlsContainer = styled.div`
   margin-top: 1rem;
@@ -21,11 +21,11 @@ const TabButton = styled.button`
   align-items: center;
   font-weight: 500;
   border: 0;
-  background: ${COLORS_1.BUTTON_INACTIVE_BG};
+  background: ${COLORS.BUTTON_INACTIVE_BG};
   opacity: 70%;
 
   &:disabled {
-    background: ${COLORS_1.BUTTON_ACTIVE_BG};
+    background: ${COLORS.BUTTON_ACTIVE_BG};
     opacity: 100%;
   }
 `;
@@ -45,19 +45,19 @@ export const TabControls = ({
         <TabButton onClick={() => setCurrentTab(0)} disabled={currentTab === 0}>
           <GiTomato
             size={25}
-            style={{ color: currentTab === 0 ? COLORS_1.BUTTON_ACTIVE_ICON : COLORS_1.BUTTON_INACTIVE_ICON }}
+            style={{ color: currentTab === 0 ? COLORS.BUTTON_ACTIVE_ICON : COLORS.BUTTON_INACTIVE_ICON }}
           />
         </TabButton>
         <TabButton onClick={() => setCurrentTab(1)} disabled={currentTab === 1}>
           <FaListOl
             size={25}
-            style={{ color: currentTab === 1 ? COLORS_1.BUTTON_ACTIVE_ICON : COLORS_1.BUTTON_INACTIVE_ICON }}
+            style={{ color: currentTab === 1 ? COLORS.BUTTON_ACTIVE_ICON : COLORS.BUTTON_INACTIVE_ICON }}
           />
         </TabButton>
         <TabButton onClick={() => setCurrentTab(2)} disabled={currentTab === 2}>
           <AiOutlinePicture
             size={25}
-            style={{ color: currentTab === 2 ? COLORS_1.BUTTON_ACTIVE_ICON : COLORS_1.BUTTON_INACTIVE_ICON }}
+            style={{ color: currentTab === 2 ? COLORS.BUTTON_ACTIVE_ICON : COLORS.BUTTON_INACTIVE_ICON }}
           />
         </TabButton>
       </ControlRow>

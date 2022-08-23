@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { COLORS, COLORS_1 } from "../colors";
+import { COLORS } from "../colors";
 import { Recipe } from "../model/recipe";
 import {
   CombineAction,
@@ -20,29 +20,46 @@ const HighlightedText = css`
 `;
 
 const IngredientSpan = styled.span`
-  background-color: ${COLORS_1.INGREDIENT};
+  background-color: ${COLORS.INSTRUCTIONS_INGREDIENT};
+  ${HighlightedText};
+`;
+
+type ConjunctionSpanProps = {
+  bgColor: string;
+  textColor: string;
+};
+
+const ConjunctionSpan = styled.span<ConjunctionSpanProps>`
+  background-color: ${(props: ConjunctionSpanProps) => props.bgColor};
+  color: ${(props: ConjunctionSpanProps) => props.textColor};
   ${HighlightedText};
 `;
 
 const ContainerSpan = styled.span`
-  background-color: ${COLORS_1.CONTAINER};
+  background-color: ${COLORS.INSTRUCTIONS_CONTAINER};
   ${HighlightedText};
 `;
 
 const TimeSpan = styled.span`
-  background-color: ${COLORS_1.TIME};
+  background-color: ${COLORS.INSTRUCTIONS_TIME};
   ${HighlightedText};
 `;
 
 const HeatSpan = styled.span`
-  background-color: ${COLORS_1.INSTRUCTIONS_COOK};
-  color: ${COLORS.WHITE};
+  background-color: ${COLORS.INSTRUCTIONS_COOK};
+  color: ${COLORS.INSTRUCTIONS_LIGHT_TEXT};
   ${HighlightedText};
 `;
 
 const SettingSpan = styled.span`
-  background-color: ${COLORS_1.INSTRUCTIONS_COOK};
-  color: ${COLORS.WHITE};
+  background-color: ${COLORS.INSTRUCTIONS_COOK};
+  color: ${COLORS.INSTRUCTIONS_LIGHT_TEXT};
+  ${HighlightedText};
+`;
+
+const CutStyleSpan = styled.span`
+  background-color: ${COLORS.INSTRUCTIONS_CUT_STYLE};
+  color: ${COLORS.INSTRUCTIONS_LIGHT_TEXT};
   ${HighlightedText};
 `;
 
@@ -53,7 +70,7 @@ const InstructionDiv = styled.div`
 `;
 
 const StepNumber = styled.span`
-  background: ${COLORS_1.LIST_BULLET};
+  background: ${COLORS.LIST_BULLET};
   border-radius: 1000px;
   padding: 0.5rem 0.7rem;
   margin-right: 1rem;
@@ -93,23 +110,34 @@ export const InstructionText = ({ recipeAction, recipe }: { recipeAction: Recipe
   throw new Error("unrecognized recipe action");
 };
 
-function conjunction(words: string[]) {
+function conjunction(words: string[], backgroundColor: string, textColor?: string) {
+  const resolvedTextColor = textColor ? textColor : "inherit";
+
   if (words.length === 1) {
     return (
       <InstructionTextSpan>
-        <IngredientSpan>{words.at(0)}</IngredientSpan>,{" "}
+        <ConjunctionSpan bgColor={backgroundColor} textColor={resolvedTextColor}>
+          {words.at(0)}
+        </ConjunctionSpan>
+        ,{" "}
       </InstructionTextSpan>
     );
   }
 
   const wordsHtml = words.map((e) => (
     <InstructionTextSpan>
-      <IngredientSpan>{e}</IngredientSpan>,{" "}
+      <ConjunctionSpan bgColor={backgroundColor} textColor={resolvedTextColor}>
+        {e}
+      </ConjunctionSpan>
+      ,{" "}
     </InstructionTextSpan>
   ));
   const wordsHtmlLast = (
     <InstructionTextSpan>
-      and <IngredientSpan>{words.at(-1)}</IngredientSpan>
+      and{" "}
+      <ConjunctionSpan bgColor={backgroundColor} textColor={resolvedTextColor}>
+        {words.at(-1)}
+      </ConjunctionSpan>
     </InstructionTextSpan>
   );
   const thing = [...wordsHtml.slice(0, -1), wordsHtmlLast];
@@ -118,7 +146,7 @@ function conjunction(words: string[]) {
 
 const combineAction = (action: CombineAction, recipe: Recipe) => {
   const ingredientNames = action.ingredientIds.map((e) => getIngredientName(recipe, e));
-  const ingredientsText = conjunction(ingredientNames);
+  const ingredientsText = conjunction(ingredientNames, COLORS.INSTRUCTIONS_INGREDIENT);
   const containerText = getContainerName(recipe, action.containerId);
 
   return (
@@ -129,15 +157,13 @@ const combineAction = (action: CombineAction, recipe: Recipe) => {
 };
 
 function prepAction(recipe: Recipe, action: PrepAction) {
-  const containerText = getContainerName(recipe, action.containerId);
-  return (
-    <InstructionTextSpan>
-      Start with a <ContainerSpan>{containerText}</ContainerSpan>.
-    </InstructionTextSpan>
-  );
+  const containerNames = action.containerIds.map((c) => getContainerName(recipe, c));
+  const containerText = conjunction(containerNames, COLORS.INSTRUCTIONS_CONTAINER);
+
+  return <InstructionTextSpan>Start with {containerText}</InstructionTextSpan>;
 }
 
-function cookAction(recipe: Recipe, action: PrepAction) {
+function cookAction(recipe: Recipe, action: CookAction) {
   const containerText = getContainerName(recipe, action.containerId);
   return (
     <InstructionTextSpan>
@@ -188,11 +214,11 @@ function serveAction(recipe: Recipe, action: ServeAction) {
 
 function knifeAction(recipe: Recipe, action: KnifeAction) {
   const ingredientNames = action.ingredientIds.map((e) => getIngredientName(recipe, e));
-  const ingredientsText = conjunction(ingredientNames);
+  const ingredientsText = conjunction(ingredientNames, COLORS.INSTRUCTIONS_PREP);
   const containerText = getContainerName(recipe, action.containerId);
   return (
     <InstructionTextSpan>
-      Use knife to <SettingSpan>{action.cutStyle}</SettingSpan> {ingredientsText} and place into{" "}
+      Use knife to <CutStyleSpan>{action.cutStyle}</CutStyleSpan> {ingredientsText} and place into{" "}
       <ContainerSpan>{containerText}</ContainerSpan>.
     </InstructionTextSpan>
   );

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { COLORS_1 } from "./colors";
+import { COLORS } from "./colors";
 import { CytoscapeBridge } from "./components/cytoscapeBridge";
 import { CytoscapeControls } from "./components/cytoscapeControls";
 import { Ingredients } from "./components/ingredients";
@@ -40,7 +40,7 @@ const RecipeName = styled.h1`
 `;
 
 const App = () => {
-  useBackgroundColor(COLORS_1.BACKGROUND);
+  useBackgroundColor(COLORS.BACKGROUND);
   const [currentStep, setStep] = useState(0);
   const recipe = recipes;
   const recipeGraph = convertToGraph(recipe);

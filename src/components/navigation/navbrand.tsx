@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { GiChefToque } from "react-icons/gi";
-import { COLORS_1 } from "../../colors";
+import { COLORS } from "../../colors";
 import { FontKey, getFont } from "../../fonts";
 
 const NavBrandLink = styled.a`
@@ -17,7 +17,7 @@ const NavBrandText = styled.div`
   font-size: 24px;
   font-weight: 600;
   font-family: ${getFont(FontKey.HEADING)};
-  color: ${COLORS_1.BRAND};
+  color: ${COLORS.BRAND};
 `;
 
 const NavBrandContainer = styled.div`
@@ -30,7 +30,7 @@ export const NavBrand = () => {
     <NavBrandContainer>
       <NavBrandLink href="#page-top">
         <NavBrandTextContainer>
-          <GiChefToque size={25} color={COLORS_1.LOGO} />
+          <GiChefToque size={25} color={COLORS.LOGO} />
           <NavBrandText>Cookbook</NavBrandText>
         </NavBrandTextContainer>
       </NavBrandLink>

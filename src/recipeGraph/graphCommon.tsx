@@ -6,6 +6,16 @@ export function nodeId(node: string) {
   return `${node}`.replace(" ", "_");
 }
 
+export function parseIngredientRef(ingredientId: string): [string, string | undefined] {
+  const x = ingredientId.indexOf(".");
+  if (ingredientId.indexOf(".") < 0) {
+    return [ingredientId, undefined];
+  }
+
+  const [ingredient, cutStyle] = ingredientId.split(".");
+  return [ingredient, cutStyle];
+}
+
 export interface GraphNode {
   id: string;
   iconName: string;

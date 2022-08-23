@@ -148,8 +148,8 @@
     {
       "id": "s0",
       "action": "prep",
-      "containerId": "c3",
-      "graph": "prep -> c3"
+      "containerIds": ["c3", "c4"],
+      "graph": "prep -> *"
     },
     {
       "id": "s-1",
@@ -157,7 +157,7 @@
       "ingredientIds": ["bellPepper", "shallot"],
       "cutStyle": "dice",
       "containerId": "c3",
-      "graph": "* -> cook"
+      "graph": "* -> *"
     },
     {
       "id": "s-2",
@@ -168,7 +168,7 @@
     {
       "id": "s1",
       "action": "combine",
-      "ingredientIds": ["butter", "corn", "bellPepper", "shallot"],
+      "ingredientIds": ["butter", "corn", "bellPepper.dice", "shallot.dice"],
       "containerId": "c1",
       "graph": "* -> c1"
     },

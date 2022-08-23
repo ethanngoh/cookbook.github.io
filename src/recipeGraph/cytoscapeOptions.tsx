@@ -1,4 +1,4 @@
-import { COLORS_1 } from "../colors";
+import { COLORS } from "../colors";
 import { ICONS, IconSource, PngIconInfo, ReactIconInfo, SvgIconInfo } from "../icons/icons";
 import { edgeId, EdgesSet, NodesSet } from "./graphCommon";
 
@@ -82,32 +82,32 @@ const NONCURRENT_EDGE_STYLE: { [key: string]: string } = {
 
 const EDGE_STYLE: { [key: string]: { [key: string]: string } } = {
   prep: {
-    "line-color": COLORS_1.GRAPH_ENDPOINT,
-    "target-arrow-color": COLORS_1.GRAPH_ENDPOINT
+    "line-color": COLORS.GRAPH_ENDPOINT,
+    "target-arrow-color": COLORS.GRAPH_ENDPOINT
   },
   cook: {
-    "line-color": COLORS_1.GRAPH_ENDPOINT,
-    "target-arrow-color": COLORS_1.GRAPH_ENDPOINT
+    "line-color": COLORS.GRAPH_ENDPOINT,
+    "target-arrow-color": COLORS.GRAPH_ENDPOINT
   },
   serve: {
-    "line-color": COLORS_1.GRAPH_ENDPOINT,
-    "target-arrow-color": COLORS_1.GRAPH_ENDPOINT
+    "line-color": COLORS.GRAPH_ENDPOINT,
+    "target-arrow-color": COLORS.GRAPH_ENDPOINT
   },
   combine: {
-    "line-color": COLORS_1.GRAPH_COMBINE,
-    "target-arrow-color": COLORS_1.GRAPH_COMBINE
+    "line-color": COLORS.GRAPH_COMBINE,
+    "target-arrow-color": COLORS.GRAPH_COMBINE
   },
   saute: {
-    "line-color": COLORS_1.GRAPH_SAUTE,
-    "target-arrow-color": COLORS_1.GRAPH_SAUTE
+    "line-color": COLORS.GRAPH_SAUTE,
+    "target-arrow-color": COLORS.GRAPH_SAUTE
   },
   transfer: {
-    "line-color": COLORS_1.GRAPH_TRANSFER,
-    "target-arrow-color": COLORS_1.GRAPH_TRANSFER
+    "line-color": COLORS.GRAPH_TRANSFER,
+    "target-arrow-color": COLORS.GRAPH_TRANSFER
   },
   knife: {
-    "line-color": COLORS_1.GRAPH_KNIFE,
-    "target-arrow-color": COLORS_1.GRAPH_KNIFE
+    "line-color": COLORS.GRAPH_KNIFE,
+    "target-arrow-color": COLORS.GRAPH_KNIFE
   }
 };
 

@@ -3,14 +3,14 @@ import styled from "@emotion/styled";
 
 import React, { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { COLORS_1 } from "../colors";
+import { COLORS } from "../colors";
 
 const PicturesContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 33vw;
   gap: 0.5rem;
-  border: 2px solid ${COLORS_1.GALLERY_BACKGROUND};
+  border: 2px solid ${COLORS.GALLERY_BACKGROUND};
   padding: 0 0 2em 0;
   margin: 1em 0;
 `;

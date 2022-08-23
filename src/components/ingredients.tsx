@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { COLORS_1 } from "../colors";
+import { COLORS } from "../colors";
 import { Ingredient } from "../model/ingredient";
 import { Recipe } from "../model/recipe";
 
@@ -11,7 +11,7 @@ const IngredientsDiv = styled.div`
 `;
 
 const StepNumber = styled.span`
-  background: ${COLORS_1.LIST_BULLET};
+  background: ${COLORS.LIST_BULLET};
   border-radius: 1000px;
   padding: 0.25rem 0.5rem;
 `;
