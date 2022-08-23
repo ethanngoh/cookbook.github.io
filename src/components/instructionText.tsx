@@ -4,14 +4,14 @@ import { COLORS, COLORS_1 } from "../colors";
 import { Recipe } from "../model/recipe";
 import {
   CombineAction,
+  CookAction,
   KnifeAction,
   OvenAction,
+  PrepAction,
   RecipeAction,
   SauteAction,
   ServeAction,
-  PrepAction,
-  TransferAction,
-  CookAction
+  TransferAction
 } from "../model/recipeAction";
 import { getContainerName, getIngredientName } from "../recipeGraph/recipeReader";
 
@@ -90,7 +90,7 @@ export const InstructionText = ({ recipeAction, recipe }: { recipeAction: Recipe
   } else if (recipeAction.action === "knife") {
     return knifeAction(recipe, recipeAction as KnifeAction);
   }
-  throw "unrecognized recipe action";
+  throw new Error("unrecognized recipe action");
 };
 
 function conjunction(words: string[]) {

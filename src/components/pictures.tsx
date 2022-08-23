@@ -52,7 +52,7 @@ function customRightNav(onClick: React.MouseEventHandler<HTMLElement>, disabled:
 }
 
 export const Pictures = ({ images }: { images: Image[] }) => {
-  const [imageIndex, setImageIndex] = useState(0);
+  const [, setImageIndex] = useState(0);
   return (
     <>
       <h2>Pictures</h2>

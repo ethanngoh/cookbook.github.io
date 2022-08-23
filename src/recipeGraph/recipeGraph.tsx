@@ -65,7 +65,7 @@ export class RecipeGraph {
     const previousActions: { [key: string]: RecipeAction } = {};
     var currentAction: RecipeAction | null = null;
     const nextActions: { [key: string]: RecipeAction } = {};
-    for (var [key, edge] of Object.entries(this.edges)) {
+    for (var [, edge] of Object.entries(this.edges)) {
       const action = edge.data as RecipeAction;
       const diff = edge.order - step;
       if (diff < 0) {

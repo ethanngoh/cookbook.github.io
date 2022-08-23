@@ -22,16 +22,6 @@ const IngredientAmount = styled.td`
   font-weight: 700;
 `;
 
-const IngredientText = ({ item }: { item: Ingredient }) => {
-  return (
-    <div key={item.id}>
-      <span>
-        {item.amount.value} {item.amount.unit} {item.name}
-      </span>
-    </div>
-  );
-};
-
 export const Ingredients = ({ recipe }: { recipe: Recipe }) => {
   return (
     <IngredientsDiv>

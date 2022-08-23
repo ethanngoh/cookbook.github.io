@@ -20,11 +20,6 @@ const NavBrandText = styled.div`
   color: ${COLORS_1.BRAND};
 `;
 
-const NavBrandImg = styled.img`
-  width: 40px;
-  margin-right: 0.6em;
-`;
-
 const NavBrandContainer = styled.div`
   display: flex;
   align-items: center;
@@ -33,7 +28,6 @@ const NavBrandContainer = styled.div`
 export const NavBrand = () => {
   return (
     <NavBrandContainer>
-      {/* <NavBrandImg src="img/logo-color.svg" width="40px" alt="logo" /> */}
       <NavBrandLink href="#page-top">
         <NavBrandTextContainer>
           <GiChefToque size={25} color={COLORS_1.LOGO} />

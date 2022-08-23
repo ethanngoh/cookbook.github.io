@@ -3,7 +3,7 @@ import React from "react";
 import { AiOutlinePicture } from "react-icons/ai";
 import { FaListOl } from "react-icons/fa";
 import { GiTomato } from "react-icons/gi";
-import { COLORS, COLORS_1 } from "../colors";
+import { COLORS_1 } from "../colors";
 
 const TabControlsContainer = styled.div`
   margin-top: 1rem;

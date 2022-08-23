@@ -3,16 +3,15 @@ import { useState } from "react";
 import { COLORS_1 } from "./colors";
 import { CytoscapeBridge } from "./components/cytoscapeBridge";
 import { CytoscapeControls } from "./components/cytoscapeControls";
-import { DebugView } from "./components/debugView";
 import { Ingredients } from "./components/ingredients";
 import { Instructions } from "./components/instructions";
 import { Navigation } from "./components/navigation/navigation";
 import { Pictures } from "./components/pictures";
 import { TabControls } from "./components/tabControls";
 import { useBackgroundColor } from "./hooks/useBackgroundColor";
+import * as recipes from "./recipeData/recipes.json";
 import { toCytoscapeOptions } from "./recipeGraph/cytoscapeOptions";
 import { convertToGraph } from "./recipeGraph/recipeReader";
-import * as recipes from "./recipeData/recipes.json";
 
 const Container = styled.div`
   width: 100vw;
