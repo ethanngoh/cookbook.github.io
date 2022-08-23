@@ -11,7 +11,7 @@ const IngredientsDiv = styled.div`
 `;
 
 const StepNumber = styled.span`
-  background: ${COLORS_1.BACKGROUND_EMPH2};
+  background: ${COLORS_1.LIST_BULLET};
   border-radius: 1000px;
   padding: 0.25rem 0.5rem;
 `;

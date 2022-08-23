@@ -1,11 +1,11 @@
-import { BiDish } from "react-icons/bi";
-import { FaCarrot, FaArrowAltCircleRight } from "react-icons/fa";
-import { GiCorn, GiGasStove, GiSaucepan } from "react-icons/gi";
 import { IconType } from "react-icons";
-import { COLORS } from "../colors";
-import { iconToSvgString, svgForCssBackgroundImage } from "./svgReactIcon";
-import { fryingPan } from "./svgRaws";
+import { BiDish } from "react-icons/bi";
+import { FaArrowAltCircleRight, FaCarrot } from "react-icons/fa";
+import { GiGasStove } from "react-icons/gi";
 import { MdOutlineMicrowave } from "react-icons/md";
+import { COLORS, COLORS_1 } from "../colors";
+import { fryingPan } from "./svgRaws";
+import { iconToSvgString, svgForCssBackgroundImage } from "./svgReactIcon";
 
 export enum IconSource {
   Svg = "svg",
@@ -51,20 +51,20 @@ const ICONS: { [key: string]: AnyIconInfo } = {
     borderColor: COLORS.VEGETABLE,
     url: "img/png/corn.jpeg"
   },
-  start: {
+  prep: {
     source: IconSource.ReactIcon,
     reactIconType: FaArrowAltCircleRight,
     backgroundColor: "#fff",
-    fill: COLORS.ENDPOINT,
-    borderColor: COLORS.ENDPOINT,
+    fill: COLORS_1.GRAPH_ENDPOINT,
+    borderColor: COLORS_1.GRAPH_ENDPOINT,
     svgCss: ""
   },
-  end: {
+  serve: {
     source: IconSource.ReactIcon,
     reactIconType: BiDish,
     backgroundColor: "#fff",
-    fill: COLORS.ENDPOINT,
-    borderColor: COLORS.ENDPOINT,
+    fill: COLORS_1.GRAPH_ENDPOINT,
+    borderColor: COLORS_1.GRAPH_ENDPOINT,
     svgCss: ""
   },
   fryingPan: {
@@ -132,6 +132,11 @@ const ICONS: { [key: string]: AnyIconInfo } = {
     fill: COLORS.APPLIANCE,
     borderColor: COLORS.APPLIANCE,
     svgCss: fryingPan
+  },
+  prepBowl: {
+    source: IconSource.Png,
+    url: "img/png/prepBowl.png",
+    borderColor: COLORS.CONTAINER
   }
 };
 

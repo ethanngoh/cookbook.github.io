@@ -21,11 +21,11 @@ const TabButton = styled.button`
   align-items: center;
   font-weight: 500;
   border: 0;
-  background: ${COLORS_1.BACKGROUND3};
+  background: ${COLORS_1.BUTTON_INACTIVE_BG};
   opacity: 70%;
 
   &:disabled {
-    background: ${COLORS_1.PRIMARY};
+    background: ${COLORS_1.BUTTON_ACTIVE_BG};
     opacity: 100%;
   }
 `;
@@ -43,16 +43,21 @@ export const TabControls = ({
     <TabControlsContainer>
       <ControlRow>
         <TabButton onClick={() => setCurrentTab(0)} disabled={currentTab === 0}>
-          <GiTomato color={COLORS_1.TOMATO} size={25} />
+          <GiTomato
+            size={25}
+            style={{ color: currentTab === 0 ? COLORS_1.BUTTON_ACTIVE_ICON : COLORS_1.BUTTON_INACTIVE_ICON }}
+          />
         </TabButton>
         <TabButton onClick={() => setCurrentTab(1)} disabled={currentTab === 1}>
-          <FaListOl color={"white"} size={25} style={{ color: currentTab === 1 ? COLORS.WHITE : COLORS.BLACK }} />
+          <FaListOl
+            size={25}
+            style={{ color: currentTab === 1 ? COLORS_1.BUTTON_ACTIVE_ICON : COLORS_1.BUTTON_INACTIVE_ICON }}
+          />
         </TabButton>
         <TabButton onClick={() => setCurrentTab(2)} disabled={currentTab === 2}>
           <AiOutlinePicture
-            color={"white"}
             size={25}
-            style={{ color: currentTab === 2 ? COLORS.WHITE : COLORS.BLACK }}
+            style={{ color: currentTab === 2 ? COLORS_1.BUTTON_ACTIVE_ICON : COLORS_1.BUTTON_INACTIVE_ICON }}
           />
         </TabButton>
       </ControlRow>

@@ -120,6 +120,18 @@
       "iconName": "castIronPan",
       "name": "Cast Iron Pan",
       "size": "medium"
+    },
+    {
+      "id": "c3",
+      "iconName": "prepBowl",
+      "name": "Prep Bowl",
+      "size": "small"
+    },
+    {
+      "id": "c4",
+      "iconName": "prepBowl",
+      "name": "Prep Bowl",
+      "size": "small"
     }
   ],
   "tools": [
@@ -135,9 +147,23 @@
   "steps": [
     {
       "id": "s0",
-      "action": "start",
+      "action": "prep",
+      "containerId": "c3",
+      "graph": "prep -> c3"
+    },
+    {
+      "id": "s-1",
+      "action": "knife",
+      "ingredientIds": ["bellPepper", "shallot"],
+      "cutStyle": "dice",
+      "containerId": "c3",
+      "graph": "* -> cook"
+    },
+    {
+      "id": "s-2",
+      "action": "cook",
       "containerId": "c1",
-      "graph": "start -> c1"
+      "graph": "cook -> c1"
     },
     {
       "id": "s1",
@@ -197,7 +223,7 @@
       "id": "s8",
       "action": "serve",
       "containerId": "c2",
-      "graph": "c2.2 -> end"
+      "graph": "c2.2 -> serve"
     }
   ]
 }

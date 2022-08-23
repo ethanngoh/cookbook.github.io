@@ -10,7 +10,7 @@ const PicturesContainer = styled.div`
   flex-direction: column;
   width: 33vw;
   gap: 0.5rem;
-  border: 2px solid ${COLORS_1.BACKGROUND3};
+  border: 2px solid ${COLORS_1.GALLERY_BACKGROUND};
   padding: 0 0 2em 0;
   margin: 1em 0;
 `;

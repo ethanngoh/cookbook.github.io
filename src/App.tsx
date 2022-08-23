@@ -41,7 +41,7 @@ const RecipeName = styled.h1`
 `;
 
 const App = () => {
-  useBackgroundColor(COLORS_1.BACKGROUND_ALT);
+  useBackgroundColor(COLORS_1.BACKGROUND);
   const [currentStep, setStep] = useState(0);
   const recipe = recipes;
   const recipeGraph = convertToGraph(recipe);

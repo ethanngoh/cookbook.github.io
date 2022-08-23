@@ -1,6 +1,6 @@
 import { getIconStyle } from "../icons/icons";
 import { Recipe } from "../model/recipe";
-import { CombineAction, RecipeAction } from "../model/recipeAction";
+import { CombineAction, KnifeAction, RecipeAction } from "../model/recipeAction";
 import { getEdgeStyle } from "./cytoscapeOptions";
 import { edgeId, EdgesSet, nodeId, NodesSet } from "./graphCommon";
 import { RecipeGraph } from "./recipeGraph";
@@ -47,6 +47,8 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
 
     if (node1 === "*" && step.action === "combine") {
       addToGraphForCombineAction(recipe, step, stepIndex, nodes, node2, edges);
+    } else if (node1 === "*" && step.action === "knife") {
+      addToGraphForKnifeAction(recipe, step, stepIndex, nodes, node2, edges);
     } else {
       addToGraph(recipe, step, stepIndex, nodes, node1, node2, edges);
     }
@@ -63,16 +65,22 @@ function ingredientIconName(ingredientId: string, recipe: Recipe) {
   return container.iconName;
 }
 
-function graphToContainerIconName(graphName: string, recipe: Recipe) {
-  const dotIndex = graphName.indexOf(".");
-  const containerId = dotIndex === -1 ? graphName : graphName.substring(0, graphName.indexOf("."));
+function containerIconName(containerId: string, recipe: Recipe) {
+  const dotIndex = containerId.indexOf(".");
+  const containerRef = dotIndex === -1 ? containerId : containerId.substring(0, containerId.indexOf("."));
 
   // Special case start and end terminal nodes.
-  if (containerId === "start" || containerId === "end") {
-    return containerId;
+  if (containerRef === "prep" || containerRef === "cook" || containerRef === "serve") {
+    return containerRef;
   }
 
-  const container = recipe.containers.filter((e) => e.id === containerId)[0];
+  const container = recipe.containers.filter((e) => e.id === containerRef)[0];
+
+  if (!container) {
+    const msg = `graphToContainerIconName ${containerId}`;
+    console.error(msg);
+    throw msg;
+  }
 
   return container.iconName;
 }
@@ -87,14 +95,14 @@ function addToGraph(
   edges: EdgesSet
 ) {
   const n1Key = nodeId(node1);
-  const n1ContainerIconName = graphToContainerIconName(n1Key, recipe);
+  const n1ContainerIconName = containerIconName(n1Key, recipe);
   nodes[n1Key] = {
     id: n1Key,
     style: getIconStyle(n1ContainerIconName)
   };
   if (node2) {
     const n2Key = nodeId(node2);
-    const n2ContainerIconName = graphToContainerIconName(n2Key, recipe);
+    const n2ContainerIconName = containerIconName(n2Key, recipe);
     nodes[n2Key] = {
       id: n2Key,
       style: getIconStyle(n2ContainerIconName)
@@ -137,6 +145,51 @@ function addToGraphForCombineAction(
       data: step,
       order: stepIndex,
       style: getEdgeStyle(step.action)
+    };
+  }
+  const n2Key = nodeId(node2);
+  const n2IconName = containerIconName(n2Key, recipe);
+  if (!(n2Key in nodes)) {
+    nodes[n2Key] = {
+      id: n2Key,
+      style: getIconStyle(n2IconName)
+    };
+  }
+}
+
+function addToGraphForKnifeAction(
+  recipe: Recipe,
+  step: RecipeAction,
+  stepIndex: number,
+  nodes: NodesSet,
+  node2: string,
+  edges: EdgesSet
+) {
+  var knifeAction = step as KnifeAction;
+  for (var ingredient of knifeAction.ingredientIds) {
+    const n1Key = nodeId(ingredient);
+    const n1IconName = ingredientIconName(ingredient, recipe);
+    nodes[n1Key] = {
+      id: n1Key,
+      style: getIconStyle(n1IconName)
+    };
+
+    const eKey = edgeId(ingredient, node2);
+    edges[eKey] = {
+      id: eKey,
+      source: n1Key,
+      target: nodeId(node2),
+      data: step,
+      order: stepIndex,
+      style: getEdgeStyle(step.action)
+    };
+  }
+  const n2Key = nodeId(node2);
+  const n2IconName = containerIconName(n2Key, recipe);
+  if (!(n2Key in nodes)) {
+    nodes[n2Key] = {
+      id: n2Key,
+      style: getIconStyle(n2IconName)
     };
   }
 }

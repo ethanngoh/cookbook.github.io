@@ -6,9 +6,15 @@ export interface BaseRecipeAction {
   description?: string;
 }
 
-export interface StartAction extends BaseRecipeAction {
+export interface PrepAction extends BaseRecipeAction {
   container: string;
 }
+
+export interface CookAction extends BaseRecipeAction {
+  container: string;
+}
+
+export interface ServeAction extends BaseRecipeAction {}
 
 export interface CombineAction extends BaseRecipeAction {
   ingredientIds: string[];
@@ -30,6 +36,16 @@ export interface OvenAction extends BaseRecipeAction {
   time: string;
 }
 
-export interface ServeAction extends BaseRecipeAction {}
+export interface KnifeAction extends BaseRecipeAction {
+  cutStyle: string;
+  ingredientIds: string[];
+}
 
-export type RecipeAction = StartAction | CombineAction | SauteAction | TransferAction | OvenAction | ServeAction;
+export type RecipeAction =
+  | PrepAction
+  | CombineAction
+  | SauteAction
+  | TransferAction
+  | OvenAction
+  | ServeAction
+  | KnifeAction;

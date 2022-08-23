@@ -91,6 +91,9 @@ export class RecipeGraph {
   private addNode(nodeId: string, relevantNodes: NodesSet, opacityStyle: { opacity: string }) {
     if (!(nodeId in relevantNodes)) {
       const n = this.nodes[nodeId];
+      if (!n) {
+        debugger;
+      }
       relevantNodes[nodeId] = {
         id: n.id,
         style: {

@@ -1,15 +1,17 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { COLORS_1 } from "../colors";
+import { COLORS, COLORS_1 } from "../colors";
 import { Recipe } from "../model/recipe";
 import {
   CombineAction,
+  KnifeAction,
   OvenAction,
   RecipeAction,
   SauteAction,
   ServeAction,
-  StartAction,
-  TransferAction
+  PrepAction,
+  TransferAction,
+  CookAction
 } from "../model/recipeAction";
 import { getContainerName, getIngredientName } from "../recipeGraph/recipeReader";
 
@@ -34,11 +36,13 @@ const TimeSpan = styled.span`
 
 const HeatSpan = styled.span`
   background-color: ${COLORS_1.COOK};
+  color: ${COLORS.WHITE};
   ${HighlightedText};
 `;
 
 const SettingSpan = styled.span`
   background-color: ${COLORS_1.COOK};
+  color: ${COLORS.WHITE};
   ${HighlightedText};
 `;
 
@@ -49,7 +53,7 @@ const InstructionDiv = styled.div`
 `;
 
 const StepNumber = styled.span`
-  background: ${COLORS_1.BACKGROUND_EMPH2};
+  background: ${COLORS_1.LIST_BULLET};
   border-radius: 1000px;
   padding: 0.5rem 0.7rem;
   margin-right: 1rem;
@@ -71,8 +75,10 @@ export const Instruction = ({ recipeAction, recipe, i }: { recipeAction: RecipeA
 export const InstructionText = ({ recipeAction, recipe }: { recipeAction: RecipeAction; recipe: Recipe }) => {
   if (recipeAction.action === "combine") {
     return combineAction(recipeAction as CombineAction, recipe);
-  } else if (recipeAction.action === "start") {
-    return startAction(recipe, recipeAction as StartAction);
+  } else if (recipeAction.action === "prep") {
+    return prepAction(recipe, recipeAction as PrepAction);
+  } else if (recipeAction.action === "cook") {
+    return cookAction(recipe, recipeAction as CookAction);
   } else if (recipeAction.action === "saute") {
     return sauteAction(recipe, recipeAction as SauteAction);
   } else if (recipeAction.action === "transfer") {
@@ -81,6 +87,8 @@ export const InstructionText = ({ recipeAction, recipe }: { recipeAction: Recipe
     return ovenAction(recipe, recipeAction as OvenAction);
   } else if (recipeAction.action === "serve") {
     return serveAction(recipe, recipeAction as ServeAction);
+  } else if (recipeAction.action === "knife") {
+    return knifeAction(recipe, recipeAction as KnifeAction);
   }
   throw "unrecognized recipe action";
 };
@@ -120,7 +128,16 @@ const combineAction = (action: CombineAction, recipe: Recipe) => {
   );
 };
 
-function startAction(recipe: Recipe, action: StartAction) {
+function prepAction(recipe: Recipe, action: PrepAction) {
+  const containerText = getContainerName(recipe, action.containerId);
+  return (
+    <InstructionTextSpan>
+      Start with a <ContainerSpan>{containerText}</ContainerSpan>.
+    </InstructionTextSpan>
+  );
+}
+
+function cookAction(recipe: Recipe, action: PrepAction) {
   const containerText = getContainerName(recipe, action.containerId);
   return (
     <InstructionTextSpan>
@@ -165,6 +182,18 @@ function serveAction(recipe: Recipe, action: ServeAction) {
   return (
     <InstructionTextSpan>
       Serve <ContainerSpan>{containerText}</ContainerSpan>.
+    </InstructionTextSpan>
+  );
+}
+
+function knifeAction(recipe: Recipe, action: KnifeAction) {
+  const ingredientNames = action.ingredientIds.map((e) => getIngredientName(recipe, e));
+  const ingredientsText = conjunction(ingredientNames);
+  const containerText = getContainerName(recipe, action.containerId);
+  return (
+    <InstructionTextSpan>
+      Use knife to <SettingSpan>{action.cutStyle}</SettingSpan> {ingredientsText} and place into{" "}
+      <ContainerSpan>{containerText}</ContainerSpan>.
     </InstructionTextSpan>
   );
 }

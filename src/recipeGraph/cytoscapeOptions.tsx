@@ -70,25 +70,33 @@ function globalGraphStyles() {
 }
 
 const EDGE_STYLE: { [key: string]: { [key: string]: string } } = {
-  combine: {
-    "line-color": COLORS.COMBINE,
-    "target-arrow-color": COLORS.COMBINE
+  prep: {
+    "line-color": COLORS_1.GRAPH_ENDPOINT,
+    "target-arrow-color": COLORS_1.GRAPH_ENDPOINT
   },
-  saute: {
-    "line-color": COLORS.SAUTE,
-    "target-arrow-color": COLORS.SAUTE
-  },
-  start: {
-    "line-color": COLORS.ENDPOINT,
-    "target-arrow-color": COLORS.ENDPOINT
+  cook: {
+    "line-color": COLORS_1.GRAPH_ENDPOINT,
+    "target-arrow-color": COLORS_1.GRAPH_ENDPOINT
   },
   serve: {
-    "line-color": COLORS.ENDPOINT,
-    "target-arrow-color": COLORS.ENDPOINT
+    "line-color": COLORS_1.GRAPH_ENDPOINT,
+    "target-arrow-color": COLORS_1.GRAPH_ENDPOINT
+  },
+  combine: {
+    "line-color": COLORS_1.GRAPH_COMBINE,
+    "target-arrow-color": COLORS_1.GRAPH_COMBINE
+  },
+  saute: {
+    "line-color": COLORS_1.GRAPH_SAUTE,
+    "target-arrow-color": COLORS_1.GRAPH_SAUTE
   },
   transfer: {
-    "line-color": COLORS.TRANSFER,
-    "target-arrow-color": COLORS.TRANSFER
+    "line-color": COLORS_1.GRAPH_TRANSFER,
+    "target-arrow-color": COLORS_1.GRAPH_TRANSFER
+  },
+  knife: {
+    "line-color": COLORS_1.GRAPH_KNIFE,
+    "target-arrow-color": COLORS_1.GRAPH_KNIFE
   }
 };
 
