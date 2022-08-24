@@ -23,8 +23,29 @@ export class RecipeGraph {
     const relevantEdges: EdgesSet = {};
     const currentStepNodes: { [key: string]: string } = {};
 
-    for (var [key, edge] of Object.entries(this.edges).sort(([ak, av], [bk, bv]) => av.order - bv.order)) {
+    const sortedSteps = Object.values(this.edges).sort((av, bv) => av.order - bv.order);
+    const prepStepOrder = sortedSteps.filter((v) => v.action == "prep")[0].order;
+    const cookStepOrder = sortedSteps.filter((v) => v.action == "cook")[0].order;
+
+    debugger;
+    for (var edge of sortedSteps) {
       if (Math.abs(edge.order - step) > GRAPH_STEP_DISTANCE) {
+        continue;
+      }
+
+      // Outside boundaries of prep
+      if (
+        (edge.order < prepStepOrder && prepStepOrder < step) ||
+        (step < prepStepOrder && prepStepOrder < edge.order)
+      ) {
+        continue;
+      }
+
+      // Outside boundaries of cook
+      if (
+        (edge.order < cookStepOrder && cookStepOrder <= step) ||
+        (step < cookStepOrder && cookStepOrder < edge.order)
+      ) {
         continue;
       }
 
@@ -47,7 +68,7 @@ export class RecipeGraph {
         relevantNodes[nodeId2].style = getNodeStyle(node2.iconName, isCurrentStep);
       }
 
-      relevantEdges[key] = {
+      relevantEdges[edge.id] = {
         id: edge.id,
         order: edge.order,
         data: edge.data,
