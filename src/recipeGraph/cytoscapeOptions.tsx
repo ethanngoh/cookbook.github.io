@@ -11,15 +11,20 @@ export function toCytoscapeOptions(nodes: NodesSet, edges: EdgesSet) {
         }
       };
     }),
-    edges: Object.values(edges).map((edgeTuple) => {
-      return {
-        data: {
-          id: edgeId(edgeTuple.source, edgeTuple.target),
-          source: edgeTuple.source,
-          target: edgeTuple.target
+    edges: Object.values(edges)
+      .map((edgeTuple) => {
+        if (edgeTuple.source == edgeTuple.target) {
+          return null;
         }
-      };
-    }),
+        return {
+          data: {
+            id: edgeId(edgeTuple.source, edgeTuple.target),
+            source: edgeTuple.source,
+            target: edgeTuple.target
+          }
+        };
+      })
+      .filter((e) => e),
     style: [
       ...globalGraphStyles(),
       ...Object.values(nodes).map((node) => {
@@ -96,6 +101,10 @@ const EDGE_STYLE: { [key: string]: { [key: string]: string } } = {
   combine: {
     "line-color": COLORS.GRAPH_COMBINE,
     "target-arrow-color": COLORS.GRAPH_COMBINE
+  },
+  oven: {
+    "line-color": COLORS.GRAPH_OVEN,
+    "target-arrow-color": COLORS.GRAPH_OVEN
   },
   saute: {
     "line-color": COLORS.GRAPH_SAUTE,

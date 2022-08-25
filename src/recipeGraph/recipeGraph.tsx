@@ -25,9 +25,10 @@ export class RecipeGraph {
 
     const sortedSteps = Object.values(this.edges).sort((av, bv) => av.order - bv.order);
     const prepStepOrder = sortedSteps.filter((v) => v.action == "prep")[0].order;
-    const cookStepOrder = sortedSteps.filter((v) => v.action == "cook")[0].order;
+    const cookStep = sortedSteps.filter((v) => v.action == "cook");
+    const cookStepOrder = cookStep.length > 0 ? cookStep[0] : -1;
 
-    debugger;
+    // TODO: rewrite this as modified bfs
     for (var edge of sortedSteps) {
       if (Math.abs(edge.order - step) > GRAPH_STEP_DISTANCE) {
         continue;
@@ -64,6 +65,7 @@ export class RecipeGraph {
       if (isCurrentStep) {
         currentStepNodes[nodeId1] = nodeId1;
         currentStepNodes[nodeId2] = nodeId2;
+
         relevantNodes[nodeId1].style = getNodeStyle(node1.iconName, isCurrentStep);
         relevantNodes[nodeId2].style = getNodeStyle(node2.iconName, isCurrentStep);
       }
@@ -78,11 +80,11 @@ export class RecipeGraph {
         style: getEdgeStyle(edge.action, isCurrentStep)
       };
     }
-
     return new RecipeGraph(relevantNodes, relevantEdges, this.recipe);
   }
 
   public getRecipeActions(step: number): { prev: RecipeAction[]; current: RecipeAction; next: RecipeAction[] } {
+    debugger;
     const previousActions: { [key: string]: RecipeAction } = {};
     var currentAction: RecipeAction | null = null;
     const nextActions: { [key: string]: RecipeAction } = {};

@@ -7,11 +7,15 @@ import {
   CookAction,
   KnifeAction,
   OvenAction,
-  PrepAction,
+  BasePrepAction,
   RecipeAction,
   SauteAction,
   ServeAction,
-  TransferAction
+  TransferAction,
+  WashAction,
+  ReduceAction,
+  AssembleAction,
+  FoodProcessorAction
 } from "../model/recipeAction";
 import { getContainerName, getIngredientName } from "../recipeGraph/recipeReader";
 
@@ -90,24 +94,32 @@ export const Instruction = ({ recipeAction, recipe, i }: { recipeAction: RecipeA
 };
 
 export const InstructionText = ({ recipeAction, recipe }: { recipeAction: RecipeAction; recipe: Recipe }) => {
-  if (recipeAction.action === "combine") {
+  if (recipeAction.action === "assemble") {
+    return assembleAction(recipe, recipeAction as AssembleAction);
+  } else if (recipeAction.action === "combine") {
     return combineAction(recipeAction as CombineAction, recipe);
-  } else if (recipeAction.action === "prep") {
-    return prepAction(recipe, recipeAction as PrepAction);
   } else if (recipeAction.action === "cook") {
     return cookAction(recipe, recipeAction as CookAction);
-  } else if (recipeAction.action === "saute") {
-    return sauteAction(recipe, recipeAction as SauteAction);
-  } else if (recipeAction.action === "transfer") {
-    return transferAction(recipe, recipeAction as TransferAction);
-  } else if (recipeAction.action === "oven") {
-    return ovenAction(recipe, recipeAction as OvenAction);
-  } else if (recipeAction.action === "serve") {
-    return serveAction(recipe, recipeAction as ServeAction);
+  } else if (recipeAction.action === "foodProcessor") {
+    return foodProcessorAction(recipe, recipeAction as FoodProcessorAction);
   } else if (recipeAction.action === "knife") {
     return knifeAction(recipe, recipeAction as KnifeAction);
+  } else if (recipeAction.action === "oven") {
+    return ovenAction(recipe, recipeAction as OvenAction);
+  } else if (recipeAction.action === "prep") {
+    return prepAction(recipe, recipeAction as BasePrepAction);
+  } else if (recipeAction.action === "reduce") {
+    return reduceAction(recipe, recipeAction as ReduceAction);
+  } else if (recipeAction.action === "saute") {
+    return sauteAction(recipe, recipeAction as SauteAction);
+  } else if (recipeAction.action === "serve") {
+    return serveAction(recipe, recipeAction as ServeAction);
+  } else if (recipeAction.action === "transfer") {
+    return transferAction(recipe, recipeAction as TransferAction);
+  } else if (recipeAction.action === "wash") {
+    return washAction(recipe, recipeAction as WashAction);
   }
-  throw new Error("unrecognized recipe action");
+  throw new Error(`unrecognized recipe action ${recipeAction.action}`);
 };
 
 function conjunction(words: string[], backgroundColor: string, textColor?: string) {
@@ -119,7 +131,6 @@ function conjunction(words: string[], backgroundColor: string, textColor?: strin
         <ConjunctionSpan bgColor={backgroundColor} textColor={resolvedTextColor}>
           {words.at(0)}
         </ConjunctionSpan>
-        ,{" "}
       </InstructionTextSpan>
     );
   }
@@ -147,67 +158,69 @@ function conjunction(words: string[], backgroundColor: string, textColor?: strin
 const combineAction = (action: CombineAction, recipe: Recipe) => {
   const ingredientNames = action.ingredientIds.map((e) => getIngredientName(recipe, e));
   const ingredientsText = conjunction(ingredientNames, COLORS.INSTRUCTIONS_INGREDIENT);
-  const containerText = getContainerName(recipe, action.containerId);
+  const containerText = <ContainerSpan>{getContainerName(recipe, action.containerId)}</ContainerSpan>;
 
   return (
     <InstructionTextSpan>
-      Combine {ingredientsText} in <ContainerSpan>{containerText}</ContainerSpan>.
+      Combine {ingredientsText} in {containerText}.
     </InstructionTextSpan>
   );
 };
 
-function prepAction(recipe: Recipe, action: PrepAction) {
+function prepAction(recipe: Recipe, action: BasePrepAction) {
   const containerNames = action.containerIds.map((c) => getContainerName(recipe, c));
   const containerText = conjunction(containerNames, COLORS.INSTRUCTIONS_CONTAINER);
 
-  return <InstructionTextSpan>Start with {containerText}</InstructionTextSpan>;
+  return <InstructionTextSpan>Start with {containerText}.</InstructionTextSpan>;
 }
 
 function cookAction(recipe: Recipe, action: CookAction) {
-  const containerText = getContainerName(recipe, action.containerId);
+  const containerText = <ContainerSpan>{getContainerName(recipe, action.containerId)}</ContainerSpan>;
   return (
     <InstructionTextSpan>
-      Start with a <ContainerSpan>{containerText}</ContainerSpan>.
+      Start with a {containerText}. {action.notes}
     </InstructionTextSpan>
   );
 }
 
 function sauteAction(recipe: Recipe, action: SauteAction) {
-  const containerText = getContainerName(recipe, action.containerId);
+  const containerText = <ContainerSpan>{getContainerName(recipe, action.containerId)}</ContainerSpan>;
+  const time = <TimeSpan>{action.time}</TimeSpan>;
+  const heat = <HeatSpan>{action.heat}</HeatSpan>;
   return (
     <InstructionTextSpan>
-      Saute contents of <ContainerSpan>{containerText}</ContainerSpan> for <TimeSpan>{action.time}</TimeSpan> on{" "}
-      <HeatSpan>{action.heat}</HeatSpan> heat.
+      Saute contents of {containerText} for {time} on {heat} heat. {action.notes}
     </InstructionTextSpan>
   );
 }
 
 function transferAction(recipe: Recipe, action: TransferAction) {
-  const fromContainerText = getContainerName(recipe, action.fromContainerId);
-  const toContainerText = getContainerName(recipe, action.toContainerId);
+  const fromContainerText = <ContainerSpan>{getContainerName(recipe, action.fromContainerId)}</ContainerSpan>;
+  const toContainerText = <ContainerSpan>{getContainerName(recipe, action.toContainerId)}</ContainerSpan>;
   return (
     <InstructionTextSpan>
-      Transfer contents from <ContainerSpan>{fromContainerText}</ContainerSpan> to{" "}
-      <ContainerSpan>{toContainerText}</ContainerSpan>.
+      Transfer contents from {fromContainerText} to {toContainerText}. {action.notes}
     </InstructionTextSpan>
   );
 }
 
 function ovenAction(recipe: Recipe, action: OvenAction) {
-  const containerText = getContainerName(recipe, action.containerId);
+  const setting = <SettingSpan>{action.setting}</SettingSpan>;
+  const heat = <HeatSpan>{action.temperature}</HeatSpan>;
+  const containerText = <ContainerSpan>{getContainerName(recipe, action.containerId)}</ContainerSpan>;
+  const time = <TimeSpan>{action.time}</TimeSpan>;
   return (
     <InstructionTextSpan>
-      Set oven on <SettingSpan>{action.setting}</SettingSpan> at <HeatSpan>{action.temperature}</HeatSpan> and cook{" "}
-      <ContainerSpan>{containerText}</ContainerSpan> for <TimeSpan>{action.time}</TimeSpan>.
+      Set oven on {setting} at {heat} and cook {containerText} for {time}. {action.notes}
     </InstructionTextSpan>
   );
 }
 
 function serveAction(recipe: Recipe, action: ServeAction) {
-  const containerText = getContainerName(recipe, action.containerId);
+  const containerText = <ContainerSpan>{getContainerName(recipe, action.containerId)}</ContainerSpan>;
   return (
     <InstructionTextSpan>
-      Serve <ContainerSpan>{containerText}</ContainerSpan>.
+      Serve {containerText}. {action.notes}
     </InstructionTextSpan>
   );
 }
@@ -215,11 +228,52 @@ function serveAction(recipe: Recipe, action: ServeAction) {
 function knifeAction(recipe: Recipe, action: KnifeAction) {
   const ingredientNames = action.ingredientIds.map((e) => getIngredientName(recipe, e));
   const ingredientsText = conjunction(ingredientNames, COLORS.INSTRUCTIONS_PREP);
-  const containerText = getContainerName(recipe, action.containerId);
+  const containerNames = action.containerIds.map((c) => getContainerName(recipe, c));
+  const containerText = conjunction(containerNames, COLORS.INSTRUCTIONS_CONTAINER);
+  const cutStyle = <CutStyleSpan>{action.cutStyle}</CutStyleSpan>;
   return (
     <InstructionTextSpan>
-      Use knife to <CutStyleSpan>{action.cutStyle}</CutStyleSpan> {ingredientsText} and place into{" "}
-      <ContainerSpan>{containerText}</ContainerSpan>.
+      Use knife to {cutStyle} {ingredientsText} and place into {containerText}. {action.notes}
+    </InstructionTextSpan>
+  );
+}
+
+function washAction(recipe: Recipe, action: WashAction) {
+  const ingredientNames = action.ingredientIds.map((e) => getIngredientName(recipe, e));
+  const ingredientsText = conjunction(ingredientNames, COLORS.INSTRUCTIONS_PREP);
+  const containerNames = action.containerIds.map((c) => getContainerName(recipe, c));
+  const containerText = conjunction(containerNames, COLORS.INSTRUCTIONS_CONTAINER);
+  return (
+    <InstructionTextSpan>
+      Wash {ingredientsText} and place into {containerText}. {action.notes}
+    </InstructionTextSpan>
+  );
+}
+
+function assembleAction(recipe: Recipe, action: AssembleAction) {
+  const containerNames = action.containerIds.map((c) => getContainerName(recipe, c));
+  const containerText = conjunction(containerNames, COLORS.INSTRUCTIONS_CONTAINER);
+  return (
+    <InstructionTextSpan>
+      Assemble contents from {containerText} onto the serving plate. {action.notes}
+    </InstructionTextSpan>
+  );
+}
+
+function reduceAction(recipe: Recipe, action: ReduceAction) {
+  const containerText = <ContainerSpan>{getContainerName(recipe, action.containerId)}</ContainerSpan>;
+  return (
+    <InstructionTextSpan>
+      Reduce contents of {containerText}. {action.notes}
+    </InstructionTextSpan>
+  );
+}
+
+function foodProcessorAction(recipe: Recipe, action: FoodProcessorAction) {
+  const setting = <SettingSpan>{action.setting}</SettingSpan>;
+  return (
+    <InstructionTextSpan>
+      Use the {setting} setting on the Food Processor. {action.notes}
     </InstructionTextSpan>
   );
 }

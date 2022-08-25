@@ -6,13 +6,13 @@ export function nodeId(node: string) {
   return `${node}`.replace(" ", "_");
 }
 
+export const INGREDIENT_SEPERATOR = "_";
 export function parseIngredientRef(ingredientId: string): [string, string | undefined] {
-  const x = ingredientId.indexOf(".");
-  if (ingredientId.indexOf(".") < 0) {
+  if (ingredientId.indexOf(INGREDIENT_SEPERATOR) < 0) {
     return [ingredientId, undefined];
   }
 
-  const [ingredient, cutStyle] = ingredientId.split(".");
+  const [ingredient, cutStyle] = ingredientId.split(INGREDIENT_SEPERATOR);
   return [ingredient, cutStyle];
 }
 
@@ -34,3 +34,5 @@ export interface GraphEdge {
 
 export type NodesSet = { [key: string]: GraphNode };
 export type EdgesSet = { [key: string]: GraphEdge };
+
+export const SPECIAL_CONTAINERS = ["prep", "cook", "serve", "plate"];

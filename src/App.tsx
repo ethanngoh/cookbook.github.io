@@ -9,7 +9,8 @@ import { Navigation } from "./components/navigation/navigation";
 import { Pictures } from "./components/pictures";
 import { TabControls } from "./components/tabControls";
 import { useBackgroundColor } from "./hooks/useBackgroundColor";
-import * as recipes from "./recipeData/recipes.json";
+import * as recipes from "./recipeData/recipeData";
+
 import { toCytoscapeOptions } from "./recipeGraph/cytoscapeOptions";
 import { convertToGraph } from "./recipeGraph/recipeReader";
 
@@ -41,8 +42,8 @@ const RecipeName = styled.h1`
 
 const App = () => {
   useBackgroundColor(COLORS.BACKGROUND);
-  const [currentStep, setStep] = useState(2);
-  const recipe = recipes;
+  const [currentStep, setStep] = useState(0);
+  const recipe = recipes.gremolata;
   const recipeGraph = convertToGraph(recipe);
   const subGraph = recipeGraph.getRecipeStep(currentStep);
   const actions = recipeGraph.getRecipeActions(currentStep);

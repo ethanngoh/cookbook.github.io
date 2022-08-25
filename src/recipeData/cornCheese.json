@@ -4,23 +4,23 @@
   "images": [
     {
       "metadata": {},
-      "original": "img/png/butter.jpeg",
+      "original": "img/png/butter.png",
       "originalHeight": 400,
-      "thumbnail": "img/png/butter.jpeg",
+      "thumbnail": "img/png/butter.png",
       "thumbnailHeight": 100
     },
     {
       "metadata": {},
-      "original": "img/png/butter.jpeg",
+      "original": "img/png/butter.png",
       "originalHeight": 400,
-      "thumbnail": "img/png/butter.jpeg",
+      "thumbnail": "img/png/butter.png",
       "thumbnailHeight": 100
     },
     {
       "metadata": {},
-      "original": "img/png/butter.jpeg",
+      "original": "img/png/butter.png",
       "originalHeight": 400,
-      "thumbnail": "img/png/butter.jpeg",
+      "thumbnail": "img/png/butter.png",
       "thumbnailHeight": 100
     }
   ],
@@ -156,7 +156,7 @@
       "action": "knife",
       "ingredientIds": ["bellPepper", "shallot"],
       "cutStyle": "dice",
-      "containerId": "c3",
+      "containerIds": ["c3", "c4"],
       "graph": "* -> *"
     },
     {

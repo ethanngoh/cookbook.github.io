@@ -3,19 +3,34 @@ export interface BaseRecipeAction {
   graph: string;
   id: string;
   containerId: string;
-  description?: string;
+  notes?: string;
 }
 
-export interface PrepAction {
+export interface BasePrepAction {
   action: string;
   graph: string;
   id: string;
   containerIds: string[];
-  description?: string;
+  notes?: string;
+}
+
+export interface PrepAction extends BasePrepAction {}
+
+export interface KnifeAction extends BasePrepAction {
+  cutStyle: string;
+  ingredientIds: string[];
+}
+
+export interface WashAction extends BasePrepAction {
+  ingredientIds: string[];
 }
 
 export interface CookAction extends BaseRecipeAction {
   container: string;
+}
+
+export interface FoodProcessorAction extends BaseRecipeAction {
+  setting: string;
 }
 
 export interface ServeAction extends BaseRecipeAction {}
@@ -29,20 +44,25 @@ export interface SauteAction extends BaseRecipeAction {
   time: string;
 }
 
+export interface ReduceAction extends BaseRecipeAction {}
+
 export interface TransferAction extends BaseRecipeAction {
   fromContainerId: string;
   toContainerId: string;
+}
+
+export interface AssembleAction {
+  action: string;
+  graph: string;
+  id: string;
+  containerIds: string[];
+  notes?: string;
 }
 
 export interface OvenAction extends BaseRecipeAction {
   setting: string;
   temperature: string;
   time: string;
-}
-
-export interface KnifeAction extends BaseRecipeAction {
-  cutStyle: string;
-  ingredientIds: string[];
 }
 
 export type RecipeAction =
@@ -52,4 +72,7 @@ export type RecipeAction =
   | TransferAction
   | OvenAction
   | ServeAction
-  | KnifeAction;
+  | KnifeAction
+  | WashAction
+  | AssembleAction
+  | FoodProcessorAction;
