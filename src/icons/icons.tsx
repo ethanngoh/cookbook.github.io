@@ -48,6 +48,11 @@ export const ICONS: { [key: string]: AnyIconInfo } = {
     url: "img/png/bell-pepper_chopped.png",
     borderColor: COLORS.GRAPH_NODE_VEGETABLE
   },
+  blackGlutinousRice: {
+    source: IconSource.Png,
+    borderColor: COLORS.GRAPH_NODE_CONDIMENT,
+    url: "img/png/blackGlutinousRice.png"
+  },
   butter: {
     source: IconSource.Png,
     url: "img/png/butter.png",
@@ -65,6 +70,11 @@ export const ICONS: { [key: string]: AnyIconInfo } = {
     source: IconSource.Png,
     borderColor: COLORS.GRAPH_NODE_CONTAINER,
     url: "img/png/cast-iron-pan.png"
+  },
+  coconutMilk: {
+    source: IconSource.Png,
+    borderColor: COLORS.GRAPH_NODE_DAIRY,
+    url: "img/png/coconutMilk.png"
   },
   cook: {
     source: IconSource.ReactIcon,
@@ -152,6 +162,11 @@ export const ICONS: { [key: string]: AnyIconInfo } = {
     url: "img/homestuff-svg/oven.svg",
     borderColor: COLORS.GRAPH_NODE_APPLIANCE
   },
+  pandan: {
+    source: IconSource.Png,
+    borderColor: COLORS.GRAPH_NODE_VEGETABLE,
+    url: "img/png/pandan.png"
+  },
   parmesean: {
     source: IconSource.Png,
     url: "img/png/parmesean.png",
@@ -184,6 +199,11 @@ export const ICONS: { [key: string]: AnyIconInfo } = {
     source: IconSource.Png,
     url: "img/png/prepBowl.png",
     borderColor: COLORS.GRAPH_NODE_CONTAINER
+  },
+  pressureCooker: {
+    source: IconSource.Png,
+    borderColor: COLORS.GRAPH_NODE_CONTAINER,
+    url: "img/png/pressureCooker.png"
   },
   riceSushi: {
     source: IconSource.Png,

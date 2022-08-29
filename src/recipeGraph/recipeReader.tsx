@@ -77,6 +77,8 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
       parseRegularAction(recipe, step, stepIndex, nodes, node1, node2, edges);
     } else if (step.action === "prep") {
       parsePrepAction(recipe, step, stepIndex, nodes, node1, edges);
+    } else if (step.action === "pressureCooker") {
+      parseRegularAction(recipe, step, stepIndex, nodes, node1, node2, edges);
     } else if (step.action === "reduce") {
       parseRegularAction(recipe, step, stepIndex, nodes, node1, node2, edges);
     } else if (step.action === "saute") {

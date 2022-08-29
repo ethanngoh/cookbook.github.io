@@ -33,6 +33,11 @@ export interface FoodProcessorAction extends BaseRecipeAction {
   setting: string;
 }
 
+export interface PressureCookerAction extends BaseRecipeAction {
+  setting: string;
+  time: string;
+}
+
 export interface ServeAction extends BaseRecipeAction {}
 
 export interface CombineAction extends BaseRecipeAction {
@@ -75,4 +80,5 @@ export type RecipeAction =
   | KnifeAction
   | WashAction
   | AssembleAction
-  | FoodProcessorAction;
+  | FoodProcessorAction
+  | PressureCookerAction;

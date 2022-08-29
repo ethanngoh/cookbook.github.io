@@ -13,80 +13,50 @@
   "ingredients": [
     {
       "id": "blackGlutinousRice",
-      "iconName": "parsley",
-      "name": "Parsley",
+      "iconName": "blackGlutinousRice",
+      "name": "Black Glutinous Rice",
       "amount": {
-        "unit": "bunch",
-        "value": 1
+        "unit": "g",
+        "value": 150
       }
     },
     {
-      "id": "garlic",
-      "iconName": "garlic",
-      "name": "Garlic",
-      "amount": {
-        "unit": "clove",
-        "value": 5
-      }
-    },
-    {
-      "id": "lemonZest",
-      "iconName": "lemonZest",
-      "name": "Lemon Zest",
+      "id": "pandan",
+      "iconName": "pandan",
+      "name": "Pandan Leaf",
       "amount": {
         "unit": "count",
-        "value": 1
+        "value": 3
       }
     },
     {
-      "id": "lemonJuice",
-      "iconName": "lemon",
-      "name": "Lemon Juice",
+      "id": "coconutMilk",
+      "iconName": "coconutMilk",
+      "name": "Coconut Milk",
       "amount": {
-        "unit": "tsp",
-        "value": 2
-      }
-    },
-    {
-      "id": "oliveOil",
-      "iconName": "oliveOil",
-      "name": "Olive Oil",
-      "amount": {
-        "unit": "cup",
-        "value": 0.5
-      }
-    },
-    {
-      "id": "salt",
-      "iconName": "salt",
-      "name": "Salt",
-      "amount": {
-        "unit": "taste",
-        "value": 1
-      }
-    },
-    {
-      "id": "pepper",
-      "iconName": "pepper",
-      "name": "Pepper",
-      "amount": {
-        "unit": "taste",
-        "value": 1
+        "unit": "ml",
+        "value": 10
       }
     }
   ],
   "containers": [
     {
       "id": "c1",
-      "iconName": "foodProcessor",
-      "name": "Food Processor Bowl",
+      "iconName": "pressureCooker",
+      "name": "Pressure Cooker Bowl",
+      "size": "medium"
+    },
+    {
+      "id": "c2",
+      "iconName": "prepBowl",
+      "name": "Bowl",
       "size": "small"
     }
   ],
   "tools": [
     {
       "id": "t1",
-      "name": "Food Processor"
+      "name": "Pressure Cooker"
     }
   ],
   "steps": [
@@ -97,40 +67,41 @@
       "graph": "prep -> *"
     },
     {
-      "id": "s2",
+      "id": "s1",
       "action": "combine",
-      "ingredientIds": ["parsley", "garlic"],
+      "ingredientIds": ["blackGlutinousRice", "pandan"],
       "containerId": "c1",
       "graph": "* -> c1.1"
     },
     {
-      "id": "s3",
-      "action": "foodProcessor",
-      "setting": "pulse",
+      "id": "s2",
+      "action": "pressureCooker",
+      "setting": "high",
+      "time": "1.5 hr",
       "containerId": "c1",
       "graph": "c1.1 -> c1.2",
-      "notes": "Result should be chunky."
+      "notes": "Let pressure naturally dissipate. Rice should be semi firm."
+    },
+    {
+      "id": "s3",
+      "action": "transfer",
+      "containerId": "c1",
+      "fromContainerId": "c1",
+      "toContainerId": "c2",
+      "graph": "c1.2 -> c2"
     },
     {
       "id": "s4",
       "action": "combine",
-      "ingredientIds": ["oliveOil", "salt", "pepper", "lemonJuice"],
-      "containerId": "c1",
-      "graph": "* -> c1.2"
+      "ingredientIds": ["coconutMilk"],
+      "containerId": "c2",
+      "graph": "* -> c2"
     },
     {
       "id": "s5",
-      "action": "foodProcessor",
-      "setting": "pulse",
-      "containerId": "c1",
-      "graph": "c1.2 -> c1.3",
-      "notes": "Ensure ingredient uniformity."
-    },
-    {
-      "id": "s6",
       "action": "serve",
-      "containerId": "c1",
-      "graph": "c1.3 -> serve"
+      "containerId": "c2",
+      "graph": "c2 -> serve"
     }
   ]
 }

@@ -15,7 +15,8 @@ import {
   WashAction,
   ReduceAction,
   AssembleAction,
-  FoodProcessorAction
+  FoodProcessorAction,
+  PressureCookerAction
 } from "../model/recipeAction";
 import { getContainerName, getIngredientName } from "../recipeGraph/recipeReader";
 
@@ -108,6 +109,8 @@ export const InstructionText = ({ recipeAction, recipe }: { recipeAction: Recipe
     return ovenAction(recipe, recipeAction as OvenAction);
   } else if (recipeAction.action === "prep") {
     return prepAction(recipe, recipeAction as BasePrepAction);
+  } else if (recipeAction.action === "pressureCooker") {
+    return pressureCookerAction(recipe, recipeAction as PressureCookerAction);
   } else if (recipeAction.action === "reduce") {
     return reduceAction(recipe, recipeAction as ReduceAction);
   } else if (recipeAction.action === "saute") {
@@ -274,6 +277,16 @@ function foodProcessorAction(recipe: Recipe, action: FoodProcessorAction) {
   return (
     <InstructionTextSpan>
       Use the {setting} setting on the Food Processor. {action.notes}
+    </InstructionTextSpan>
+  );
+}
+
+function pressureCookerAction(recipe: Recipe, action: PressureCookerAction) {
+  const setting = <SettingSpan>{action.setting}</SettingSpan>;
+  const time = <TimeSpan>{action.time}</TimeSpan>;
+  return (
+    <InstructionTextSpan>
+      Set Pressure Cooker to {setting} setting and cook for {time}. {action.notes}
     </InstructionTextSpan>
   );
 }
