@@ -168,7 +168,7 @@
     {
       "id": "s1",
       "action": "combine",
-      "ingredientIds": ["butter", "corn", "bellPepper.dice", "shallot.dice"],
+      "ingredientIds": ["butter", "corn", "bellPepper_dice", "shallot_dice"],
       "containerId": "c1",
       "graph": "* -> c1"
     },

@@ -56,7 +56,6 @@ const InstructionsContent = ({
   recipe: Recipe;
   currentStep: number;
 }) => {
-  debugger;
   var data = [...actions.prev, actions.current, ...actions.next];
 
   const globalShift = 0;

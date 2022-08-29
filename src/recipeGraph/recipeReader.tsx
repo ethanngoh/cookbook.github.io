@@ -62,9 +62,6 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
   for (let stepIndex = 0; stepIndex < recipe.steps.length; stepIndex++) {
     const step = recipe.steps[stepIndex];
     const [node1, node2] = parseGraphString(step.graph);
-    if (stepIndex == 12) {
-      debugger;
-    }
 
     if (step.action === "assemble") {
       parseAssembleAction(recipe, step, stepIndex, nodes, node2, edges);
@@ -85,6 +82,8 @@ export function convertToGraph(recipe: Recipe): RecipeGraph {
     } else if (step.action === "saute") {
       parseRegularAction(recipe, step, stepIndex, nodes, node1, node2, edges);
     } else if (step.action === "serve") {
+      parseRegularAction(recipe, step, stepIndex, nodes, node1, node2, edges);
+    } else if (step.action === "transfer") {
       parseRegularAction(recipe, step, stepIndex, nodes, node1, node2, edges);
     } else if (step.action === "wash") {
       parseWashAction(recipe, step, stepIndex, nodes, edges);

@@ -1,8 +1,10 @@
-import React from "react";
 import styled from "@emotion/styled";
-import { NavBrand } from "./navbrand";
-
+import React from "react";
 import { breakpoint } from "../../breakpoints";
+import { COLORS } from "../../colors";
+import { RawRecipeType } from "../../recipeData/recipeData";
+import { NavBrand } from "./navbrand";
+import { Search } from "./search";
 
 const NavFixedPosition = styled.div`
   width: 100%;
@@ -20,15 +22,20 @@ const NavLeft = styled.nav`
   display: flex;
 `;
 
+const NavCenter = styled.nav`
+  display: flex;
+`;
+
 const NavRight = styled.nav`
   display: flex;
 `;
 
-const Nav = ({ left, right }: { left: React.ReactNode; right: React.ReactNode }) => {
+const Nav = ({ left, center, right }: { left: React.ReactNode; center?: React.ReactNode; right: React.ReactNode }) => {
   return (
     <NavFixedPosition>
       <NavContainer>
         <NavLeft>{left}</NavLeft>
+        {center ? <NavCenter>{center}</NavCenter> : null}
         <NavRight>{right}</NavRight>
       </NavContainer>
     </NavFixedPosition>
@@ -45,7 +52,7 @@ const NavLinks = styled.div`
 const NavLink = styled.a`
   display: flex;
   align-items: center;
-  color: #000;
+  color: ${COLORS.NAVIGATION_TEXT};
   font-size: 16px;
   font-weight: 400;
   border-radius: 0;
@@ -53,10 +60,11 @@ const NavLink = styled.a`
   text-decoration: none;
 `;
 
-export const Navigation = () => {
+export const Navigation = ({ setRecipe }: { setRecipe: React.Dispatch<React.SetStateAction<RawRecipeType>> }) => {
   return (
     <Nav
       left={<NavBrand />}
+      center={<Search setRecipe={setRecipe} />}
       right={
         <NavLinks>
           <NavLink href="#about">About</NavLink>

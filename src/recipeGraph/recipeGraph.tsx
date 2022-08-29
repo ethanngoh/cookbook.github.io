@@ -84,7 +84,6 @@ export class RecipeGraph {
   }
 
   public getRecipeActions(step: number): { prev: RecipeAction[]; current: RecipeAction; next: RecipeAction[] } {
-    debugger;
     const previousActions: { [key: string]: RecipeAction } = {};
     var currentAction: RecipeAction | null = null;
     const nextActions: { [key: string]: RecipeAction } = {};

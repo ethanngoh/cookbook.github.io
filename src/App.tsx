@@ -36,15 +36,15 @@ const LeftPageContainer = styled.div`
 
 const RecipeName = styled.h1`
   font-size: 48px;
-  font-family: "Lexend Deca", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
 `;
 
 const App = () => {
   useBackgroundColor(COLORS.BACKGROUND);
   const [currentStep, setStep] = useState(0);
-  const recipe = recipes.gremolata;
-  const recipeGraph = convertToGraph(recipe);
+  const [currentRecipe, setRecipe] = useState(recipes.cornCheese);
+  const recipeGraph = convertToGraph(currentRecipe);
   const subGraph = recipeGraph.getRecipeStep(currentStep);
   const actions = recipeGraph.getRecipeActions(currentStep);
   const cyOptions = toCytoscapeOptions(subGraph.nodes, subGraph.edges);
@@ -53,14 +53,14 @@ const App = () => {
   return (
     <>
       <Container>
-        <Navigation />
+        <Navigation setRecipe={setRecipe} />
         <CenteredPageContainer>
           <LeftPageContainer>
-            <RecipeName>{recipe.name}</RecipeName>
+            <RecipeName>{currentRecipe.name}</RecipeName>
             <TabControls currentTab={currentTab} setCurrentTab={setCurrentTab}>
-              <Instructions recipe={recipe} currentStep={currentStep} actions={actions} />
-              <Ingredients recipe={recipe} />
-              <Pictures images={recipe.images} />
+              <Instructions recipe={currentRecipe} currentStep={currentStep} actions={actions} />
+              <Ingredients recipe={currentRecipe} />
+              <Pictures images={currentRecipe.images} />
             </TabControls>
             {/* <DebugView recipeGraph={recipeGraph} currentStep={currentStep} /> */}
           </LeftPageContainer>
