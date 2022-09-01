@@ -24,8 +24,8 @@ export class RecipeGraph {
     const currentStepNodes: { [key: string]: string } = {};
 
     const sortedSteps = Object.values(this.edges).sort((av, bv) => av.order - bv.order);
-    const prepStepOrder = sortedSteps.filter((v) => v.action == "prep")[0].order;
-    const cookStep = sortedSteps.filter((v) => v.action == "cook");
+    const prepStepOrder = sortedSteps.filter((v) => v.action === "prep")[0].order;
+    const cookStep = sortedSteps.filter((v) => v.action === "cook");
     const cookStepOrder = cookStep.length > 0 ? cookStep[0] : -1;
 
     // TODO: rewrite this as modified bfs

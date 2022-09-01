@@ -13,7 +13,7 @@ export function toCytoscapeOptions(nodes: NodesSet, edges: EdgesSet) {
     }),
     edges: Object.values(edges)
       .map((edgeTuple) => {
-        if (edgeTuple.source == edgeTuple.target) {
+        if (edgeTuple.source === edgeTuple.target) {
           return null;
         }
         return {

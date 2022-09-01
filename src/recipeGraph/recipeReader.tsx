@@ -31,7 +31,7 @@ export function parseGraphString(graphStr: string) {
 }
 
 export function getIngredientName(recipe: Recipe, ingredientId: string): string {
-  const [ingredientName, cutStyle] = parseIngredientRef(ingredientId);
+  const [ingredientName] = parseIngredientRef(ingredientId);
   const x = recipe.ingredients.filter((e) => e.id === ingredientName)[0];
   if (x) {
     return x.name;

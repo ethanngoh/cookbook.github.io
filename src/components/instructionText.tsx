@@ -24,11 +24,6 @@ const HighlightedText = css`
   padding: 0.2rem 0.4rem;
 `;
 
-const IngredientSpan = styled.span`
-  background-color: ${COLORS.INSTRUCTIONS_INGREDIENT};
-  ${HighlightedText};
-`;
-
 type ConjunctionSpanProps = {
   bgColor: string;
   textColor: string;
